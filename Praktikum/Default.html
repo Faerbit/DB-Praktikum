@@ -2,43 +2,39 @@
 <html>
 <head>
     <title></title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="scripts/bootstrap.min.js"></script>
     <link rel="stylesheet" href="content/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="content/bootstrap.min.css" />
-    <link rel="stylesheet" href="content/footer.css"
+    <link rel="stylesheet" href="content/footer.css" />
+    <link rel="stylesheet" href="content/simple-sidebar.css" />
 </head>
 <body>
     <div class="container">
         <h1 class="page-header">Herzlich willkommen zum System</h1>
         Studentenportal der <a href="https://www.fh-aachen.de">FH Aachen</a>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Fachnr.</th>
-                    <th>Modulbezeichnung</th>
-                    <th>Professor</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>501</td>
-                    <td>Datenbanken</td>
-                    <td>Prof. Dr. Ritz</td>
-                </tr>
-                <tr>
-                    <td>502</td>
-                    <td>Theoretische Informatik</td>
-                    <td>Prof. Dr. Fassbender</td>
-                </tr>
-                <tr>
-                    <td>503</td>
-                    <td>Architektur von Betriebssystemen</td>
-                    <td>Prof. Dr. Oßman</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="row">
+            <div class="col-xs-4">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">Navigation</li>
+                    <li class="active"><a href="#">Aktuelle Module</a></li>
+                    <li>
+                        <a href="#">Benutzer</a>
+                        <ul>
+                            <li>Studenten</li>
+                            <li>Professoren</li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Dokumente</a></li>
+                    <li><a href="#">Forum</a></li>
+                    <li><a href="#">Hilfe</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-8">
+                <img src="images/quote.png" alt="Inspirational quote" class="img-rounded img-responsive" />
+            </div>
+        </div>
     </div>
     <footer class="footer">
         <div class="container">

@@ -80,7 +80,10 @@
     <Content Include="content\bootstrap-theme.min.css" />
     <Content Include="content\bootstrap.css" />
     <Content Include="content\bootstrap.min.css" />
-    <Content Include="content\module.css" />
+    <Content Include="content\footer.css" />
+    <Content Include="content\simple-sidebar.css" />
+    <Content Include="Default.html" />
+    <Content Include="images\quote.png" />
     <Content Include="Module.html" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
