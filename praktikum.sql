@@ -3,9 +3,18 @@ USE [praktikum]
 GO
 
 -- neue Entities sollten Sie auch mit einer entsprechenden IF EXISTS DROP Zeile behandeln, damit bei Neuausführung der DDL-Befehle die Tabellen alle neu angelegt werden können
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Diskussion]') AND type in (N'U'))
-DROP TABLE [Diskussion]
+ALTER TABLE [Professor] NOCHECK CONSTRAINT ALL
+ALTER TABLE [Beitrag] NOCHECK CONSTRAINT ALL
+ALTER TABLE [Student] NOCHECK CONSTRAINT ALL
+ALTER TABLE [Forum] NOCHECK CONSTRAINT ALL
+ALTER TABLE [Dokument] NOCHECK CONSTRAINT ALL
+ALTER TABLE [Benutzer] NOCHECK CONSTRAINT ALL
+ALTER TABLE [Modul] NOCHECK CONSTRAINT ALL
+ALTER TABLE [BeitragDokument] NOCHECK CONSTRAINT ALL
+ALTER TABLE [Diskussion] NOCHECK CONSTRAINT ALL
+go
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[BeitragDokument]') AND type in (N'U'))
+DROP TABLE [BeitragDokument]
 
 GO
 
@@ -14,23 +23,8 @@ DROP TABLE [Beitrag]
 
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Forum]') AND type in (N'U'))
-DROP TABLE [Forum]
-
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Modul]') AND type in (N'U'))
-DROP TABLE [Modul]
-
-GO
-
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Dokument]') AND type in (N'U'))
 DROP TABLE [Dokument]
-
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Benutzer]') AND type in (N'U'))
-DROP TABLE [Benutzer]
 
 GO
 
@@ -44,56 +38,33 @@ DROP TABLE [Professor]
 
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[BeitragDokument]') AND type in (N'U'))
-DROP TABLE [BeitragDokument]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Modul]') AND type in (N'U'))
+DROP TABLE [Modul]
 
 GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Benutzer]') AND type in (N'U'))
+DROP TABLE [Benutzer]
+
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Diskussion]') AND type in (N'U'))
+DROP TABLE [Diskussion]
+
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Forum]') AND type in (N'U'))
+DROP TABLE [Forum]
+
+GO
+
+
+
+
+
+
+
+
 -- Entities
-
-CREATE TABLE [Forum](
-    [ID] integer identity (0,1) primary key,
-	[Bezeichnung] [varchar](100),
-	[OberforumID] [integer]
-)
-GO
-
-CREATE TABLE [Diskussion](
-    ID integer identity (0, 1) primary key,
-	[Titel] [varchar](100),
-	[AnzahlSichtungen] integer,
-	[ForumID] [integer] foreign key
-)
-GO
-
-CREATE TABLE [Beitrag](
-    ID integer identity(0,1) primary key,
-	[Mitteilung] [varchar](10000),
-	[Änderungsdatum] [datetime],
-	[Veröffentlichungsdatum] [datetime],
-    [DiskussionsID] [integer] foreign key
-    [BenutzerID] [integer] foreign key
-)
-GO
-
-create table [Dokument](
-    ID integer identity(0,1) primary key,
-    [Titel] [varchar](100),
-    [Datei] [varbinary](max),
-    [Kategorie] [varchar](100),
-    [BenutzerID] integer foreign key,
-    [ModulID] integer foreign key,
-    [Bereitstellungsdatum] [datetime]
-)
-go
-
-create table [Modul](
-    ID integer identity(0,1) primary key,
-    [FachNr] integer,
-    [Bezeichnung] [varchar](100),
-    [BetreuerID] integer foreign key,
-    [ForumID] integer foreign key
-)
-go
 
 create table [Benutzer](
     ID integer identity(0,1) primary key,
@@ -106,21 +77,69 @@ create table [Benutzer](
 go
 
 create table [Student](
-    [BenutzerID] integer foreign key,
+    [BenutzerID] integer foreign key references [Benutzer](ID),
     [Matrikelnummer] integer,
     [Einschreibedatum] [datetime]
 )
 go
 
 create table [Professor](
-    [BenutzerID] integer foreign key,
+    [BenutzerID] integer foreign key references [Benutzer](ID),
     [BüroNr] [varchar](100),
     [Titel] [varchar](100)
 )
 go
 
+CREATE TABLE [Forum](
+    [ID] integer identity (0,1) primary key,
+	[Bezeichnung] [varchar](100),
+	[OberforumID] [integer]
+)
+GO
+
+CREATE TABLE [Diskussion](
+    ID integer identity (0, 1) primary key,
+	[Titel] varchar(100),
+	[AnzahlSichtungen] integer,
+	[ForumID] integer foreign key references [Forum](ID)
+)
+GO
+
+CREATE TABLE [Beitrag](
+    ID integer identity(0,1) primary key,
+	[Mitteilung] [varchar](8000),
+	[Änderungsdatum] [datetime],
+	[Veröffentlichungsdatum] [datetime],
+    [DiskussionsID] [integer] foreign key references [Diskussion](ID),
+    [BenutzerID] [integer] foreign key references [Benutzer](ID)
+)
+GO
+
+create table [Modul](
+    ID integer identity(0,1) primary key,
+    [FachNr] integer,
+    [Bezeichnung] [varchar](100),
+    [BetreuerID] integer foreign key references [Benutzer](ID),
+    [ForumID] integer foreign key references [Forum](ID)
+)
+go
+
+
+create table [Dokument](
+    ID integer identity(0,1) primary key,
+    [Titel] [varchar](100),
+    [Datei] [varbinary](max),
+    [Kategorie] [varchar](100),
+    [BenutzerID] integer foreign key references [Benutzer](ID),
+    [ModulID] integer foreign key references [Modul](ID),
+    [Bereitstellungsdatum] [datetime]
+)
+go
+
+
+
 create table [BeitragDokument] (
-    [BeitragID] [integer] foreign key,
-    [DokumentID] [integer] foreign key
+    [BeitragID] [integer] foreign key references [Beitrag](ID),
+    [DokumentID] [integer] foreign key references [Dokument](ID)
 )
 go
