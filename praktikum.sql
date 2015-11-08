@@ -76,7 +76,7 @@ go
 CREATE TABLE [Forum](
     [ID] integer identity (0,1) primary key,
 	[Bezeichnung] [varchar](100) not null,
-	[OberforumID] [integer] foreign key [Forum](ID)
+	[OberforumID] [integer]
 )
 GO
 
