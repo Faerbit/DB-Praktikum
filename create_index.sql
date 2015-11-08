@@ -1,0 +1,1 @@
+﻿create index forum_index on Forum(OberforumID)
