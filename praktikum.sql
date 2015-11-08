@@ -47,89 +47,82 @@ DROP TABLE [Forum]
 
 GO
 
-
-
-
-
-
-
-
 -- Entities
 
 create table [Benutzer](
     ID integer identity(0,1) primary key,
-    [Nickname] [varchar](100),
-    [Passwort] [varchar](32),
-    [E-Mail]   [varchar](100),
+    [Nickname] [varchar](100) not null,
+    [Passwort] [varchar](32) not null,
+    [E-Mail]   [varchar](100) not null,
     [Vorname]  [varchar](100),
     [Nachname] [varchar](100)
 )
 go
 
 create table [Student](
-    [BenutzerID] integer foreign key references [Benutzer](ID),
-    [Matrikelnummer] integer,
-    [Einschreibedatum] [datetime]
+    [BenutzerID] integer primary key foreign key references [Benutzer](ID) not null,
+    [Matrikelnummer] integer not null,
+    [Einschreibedatum] [datetime] not null
 )
 go
 
 create table [Professor](
-    [BenutzerID] integer foreign key references [Benutzer](ID),
-    [BüroNr] [varchar](100),
+    [BenutzerID] integer primary key foreign key references [Benutzer](ID),
+    [BüroNr] [varchar](100) not null,
     [Titel] [varchar](100)
 )
 go
 
 CREATE TABLE [Forum](
     [ID] integer identity (0,1) primary key,
-	[Bezeichnung] [varchar](100),
-	[OberforumID] [integer]
+	[Bezeichnung] [varchar](100) not null,
+	[OberforumID] [integer] foreign key [Forum](ID)
 )
 GO
 
 CREATE TABLE [Diskussion](
     ID integer identity (0, 1) primary key,
-	[Titel] varchar(100),
-	[AnzahlSichtungen] integer,
-	[ForumID] integer foreign key references [Forum](ID)
+	[Titel] varchar(100) not null,
+	[AnzahlSichtungen] integer default 0 not null,
+	[ForumID] integer foreign key references [Forum](ID) not null
 )
 GO
 
 CREATE TABLE [Beitrag](
     ID integer identity(0,1) primary key,
-	[Mitteilung] [varchar](8000),
-	[Änderungsdatum] [datetime],
-	[Veröffentlichungsdatum] [datetime],
-    [DiskussionsID] [integer] foreign key references [Diskussion](ID),
-    [BenutzerID] [integer] foreign key references [Benutzer](ID)
+	[Mitteilung] [varchar](8000) not null,
+	[Änderungsdatum] [datetime] not null,
+	[Veröffentlichungsdatum] [datetime] not null,
+    [DiskussionsID] [integer] foreign key references [Diskussion](ID) not null,
+    [BenutzerID] [integer] foreign key references [Benutzer](ID) not null
 )
 GO
 
 create table [Modul](
     ID integer identity(0,1) primary key,
-    [FachNr] integer,
-    [Bezeichnung] [varchar](100),
-    [BetreuerID] integer foreign key references [Benutzer](ID),
-    [ForumID] integer foreign key references [Forum](ID)
+    [FachNr] integer not null,
+    [Bezeichnung] [varchar](100) not null,
+    [BetreuerID] integer foreign key references [Benutzer](ID) not null,
+    [ForumID] integer foreign key references [Forum](ID) not null
 )
 go
 
 
 create table [Dokument](
     ID integer identity(0,1) primary key,
-    [Titel] [varchar](100),
-    [Datei] [varbinary](max),
+    [Titel] [varchar](100) not null,
+    [Datei] [varbinary](max) not null,
     [Kategorie] [varchar](100),
-    [BenutzerID] integer foreign key references [Benutzer](ID),
-    [ModulID] integer foreign key references [Modul](ID),
-    [Bereitstellungsdatum] [datetime]
+    [BenutzerID] integer foreign key references [Benutzer](ID) not null,
+    [ModulID] integer foreign key references [Modul](ID) not null,
+    [Bereitstellungsdatum] [datetime] not null
 )
 go
 
 
 
 create table [BeitragDokument] (
-    [BeitragID] [integer] foreign key references [Beitrag](ID),
-    [DokumentID] [integer] foreign key references [Dokument](ID)
+    [BeitragID] [integer] foreign key references [Beitrag](ID) not null,
+    [DokumentID] [integer] foreign key references [Dokument](ID) not null
 )
 go
