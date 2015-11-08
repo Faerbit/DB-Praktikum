@@ -1,0 +1,60 @@
+﻿
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="scripts/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="content/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="content/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container">
+        @{
+                if (IsPost)
+                {
+                    var html_success = @"
+                        <meta http-equiv='refresh' content='5;url=Default.html' />
+                        <div class='alert alert-success' role='alert'>Einloggen erfolgreich! Leite weiter...</div>
+                    ";
+                    var html_error = @"
+                    <div class='alert alert-danger' role='alert'>Falscher Benutzername oder Passwort!</div>
+                    <form class='form' action='Logintest.cshtml' method='post'>
+                        <div class='form-group'>
+                            <label for='user-name-input'><span class='glyphicon glyphicon-user'></span> Benutzer</label>
+                            <input type = 'text' class='form-control' id='user-name-input' name='user' value='" + Request["user"] + @"'/>
+                        </div>
+                        <div class='form-group'>
+                            <label for='password-input'><span class='glyphicon glyphicon-asterisk'></span> Passwort</label>
+                            <input type = 'password' class='form-control' id='password-input' name='password'/>
+                        </div>
+                        <button type = 'submit' class='btn btn-default'>Anmelden</button>
+                    </form>
+                ";
+                var success = false;
+            Validation.RequireField("user", "Benutzername ist erforderlich");
+                Validation.RequireField("password", "Passwort ist erforderlich");
+                if (Validation.IsValid())
+                {
+                    if (Request["user"] == "logintest" && Request["password"] == "logintest")
+                    {
+                        @Html.Raw(html_success);
+                    }
+                    else
+                    {
+                        @Html.Raw(html_error);
+                    }
+                }
+                else
+                {
+                    @Html.Raw(html_error);
+                }
+
+            }
+        }
+    </div>
+</body>
+</html>
