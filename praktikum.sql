@@ -3,16 +3,6 @@ USE [praktikum]
 GO
 
 -- neue Entities sollten Sie auch mit einer entsprechenden IF EXISTS DROP Zeile behandeln, damit bei Neuausführung der DDL-Befehle die Tabellen alle neu angelegt werden können
-ALTER TABLE [Professor] NOCHECK CONSTRAINT ALL
-ALTER TABLE [Beitrag] NOCHECK CONSTRAINT ALL
-ALTER TABLE [Student] NOCHECK CONSTRAINT ALL
-ALTER TABLE [Forum] NOCHECK CONSTRAINT ALL
-ALTER TABLE [Dokument] NOCHECK CONSTRAINT ALL
-ALTER TABLE [Benutzer] NOCHECK CONSTRAINT ALL
-ALTER TABLE [Modul] NOCHECK CONSTRAINT ALL
-ALTER TABLE [BeitragDokument] NOCHECK CONSTRAINT ALL
-ALTER TABLE [Diskussion] NOCHECK CONSTRAINT ALL
-go
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[BeitragDokument]') AND type in (N'U'))
 DROP TABLE [BeitragDokument]
 
