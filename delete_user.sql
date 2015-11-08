@@ -1,0 +1,1 @@
+﻿delete from Benutzer where id = 0
