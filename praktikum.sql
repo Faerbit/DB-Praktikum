@@ -62,7 +62,7 @@ go
 create table [Student](
     [BenutzerID] integer primary key foreign key references [Benutzer](ID) not null,
     [Matrikelnummer] integer not null,
-    [Einschreibedatum] [datetime] not null
+    [Einschreibedatum] [datetime] not null default CURRENT_TIMESTAMP
 )
 go
 
@@ -91,8 +91,8 @@ GO
 CREATE TABLE [Beitrag](
     ID integer identity(0,1) primary key,
 	[Mitteilung] [varchar](8000) not null,
-	[Änderungsdatum] [datetime] not null,
-	[Veröffentlichungsdatum] [datetime] not null,
+	[Änderungsdatum] [datetime] not null default CURRENT_TIMESTAMP,
+	[Veröffentlichungsdatum] [datetime] not null default CURRENT_TIMESTAMP,
     [DiskussionsID] [integer] foreign key references [Diskussion](ID) not null,
     [BenutzerID] [integer] foreign key references [Benutzer](ID) not null
 )
@@ -103,7 +103,8 @@ create table [Modul](
     [FachNr] integer not null,
     [Bezeichnung] [varchar](100) not null,
     [BetreuerID] integer foreign key references [Benutzer](ID) not null,
-    [ForumID] integer foreign key references [Forum](ID) not null
+    [ForumID] integer foreign key references [Forum](ID) not null,
+	constraint cnstr_FachNr check(FachNr > 500 and FachNr < 999)
 )
 go
 
@@ -115,7 +116,8 @@ create table [Dokument](
     [Kategorie] [varchar](100),
     [BenutzerID] integer foreign key references [Benutzer](ID) not null,
     [ModulID] integer foreign key references [Modul](ID) not null,
-    [Bereitstellungsdatum] [datetime] not null
+    [Bereitstellungsdatum] [datetime] not null default CURRENT_TIMESTAMP,
+	constraint cnstr_Kategorie check(Kategorie = 'Vorlesung' or Kategorie = 'Übung' or Kategorie = 'Praktikum' or Kategorie = 'Sonstiges')
 )
 go
 
