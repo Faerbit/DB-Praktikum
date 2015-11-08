@@ -65,7 +65,7 @@
     list-style: disc;
 }
 
-.sidebar-nav li .active {
+.sidebar-nav .active {
     font-style: italic;
 }
 

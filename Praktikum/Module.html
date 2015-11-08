@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <h1 class="page-header">Herzlich willkommen zum System</h1>
-        Studentenportal der <a href="https://www.fh-aachen.de">FH Aachen</a>
+        Studentenportal der <a target="_blank" href="https://www.fh-aachen.de">FH Aachen</a>
         <table class="table">
             <thead>
                 <tr>
@@ -39,6 +39,15 @@
                 </tr>
             </tbody>
         </table>
+        <hr />
+        <form class="form-inline" action="http://www.google.de/search" target="_blank">
+            <div class="form-group">
+                <label for="search-input"><span class="glyphicon glyphicon-search"></span> Suche</label>
+                <input type="text" class="form-control" id="search-input" name="q" />
+            </div>
+            <input type="hidden" name="as_sitesearch" value="http://www.fh-aachen.de" />
+            <button type="submit" class="btn btn-default">Suchen</button>
+        </form>
     </div>
     <footer class="footer">
         <div class="container">
