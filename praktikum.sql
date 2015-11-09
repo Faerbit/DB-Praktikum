@@ -53,7 +53,7 @@ create table [Benutzer](
     ID integer identity(0,1) primary key,
     [Nickname] [varchar](100) not null,
     [Passwort] [varchar](32) not null,
-    [E-Mail]   [varchar](100) not null,
+    [E-Mail]   [varchar](100) unique not null,
     [Vorname]  [varchar](100),
     [Nachname] [varchar](100)
 )
@@ -61,7 +61,7 @@ go
 
 create table [Student](
     [BenutzerID] integer primary key foreign key references [Benutzer](ID) not null,
-    [Matrikelnummer] integer not null,
+    [Matrikelnummer] integer unique not null,
     [Einschreibedatum] [datetime] not null default CURRENT_TIMESTAMP,
 	constraint fk_benutzer_student foreign key (BenutzerID) references [Benutzer](ID) on delete cascade
 )
