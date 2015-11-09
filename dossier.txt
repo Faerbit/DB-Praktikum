@@ -1,0 +1,73 @@
+Block 0:
+
+Einschränkung der Expressversion des SQL Servers:
+Die Datenbank der Expressversion kann nur 4 GB groß werden. Ebenfalls werden
+nur 1 GB RAM und ein CPU-Kern unterstüzt.  Für eine Produktivumgebung ist dies
+selten ausreichend. Ich würde diese Version also nur einsetzen, wenn ich mir
+ziemlich sicher wäre, dass diese Einschränkungen nicht zum tragen kommen(z.B.
+bei einer sehr kleinen Website).
+
+Block 1:
+Jedes Mal wenn man eine Seite in den meisten Browsern mit einem POST-Aufruf
+aufruft, erscheint eine Warnung, ob diesselben Daten nochmal gesendet werden,
+damit der Benutzer eine Möglichkeit hat ein doppeltes Absenden zu vermeiden.
+Dies kann zum Beispiel Doppelposts in Foren und Doppelbestellungen bei
+Bestellformularen verhindern.
+
+Ablauf einer Weiterleitung:
+Eine Seite mit dem entsprechenden Meta-Tag wird aufgerufen.
+Der Browser startet einen Timer.
+Sobald die entsprechend spezifizierte Anzahl an Sekunden abgelaufen ist wird
+die Seite aufgerufen, die als Weiterleitungsziel angegeben wurde.
+
+Abbilden von Relationstypen:
+1:1 Relation:
+Diese Relation kann abgebildet werden, indem bei einer der beiden Entitäten
+eine Fremdschlüsselreferenz zur anderen Entität eingefügt wird. Zusätzliche
+Attribute der Referenz können auch einer der beiden Entitäten zugeordnet
+werden.
+
+1:N Relation:
+Diese Relation kann abgebildet werden, indem bei der Entität, die N-mal
+vorkommt eine Fremdschlüsselreferenz zu der Entität, die nur einmal vorkommt
+gespeichert wird. Zusätzliche Attribute der Relation können der Entität, die
+N-mal vorkommt, zugeordnet werden.
+
+N:M Relation:
+Bei dieser Relation bleibt einem nichts anderes übrig, als eine weiter Tabelle
+anzulegen, in der die Relation gespeichert wird. Dazu wird in der Tabelle
+jeweils eine Spalte für eine Fremdschlüsselreferenz pro Entität eingefügt.
+Zusätzliche Attribute der Relation können als zusätzliche Spalten der neuen
+Tabelle abgebildet werden.
+
+GO Schlüsselwort:
+Das GO Schlüsselwort in MSSQL bewirkt, dass alle bis jetzt getätigten Befehle
+direkt ausgeführt werden sollen bevor weitere Befehle angenommen werden.
+
+Constraints:
+Das "unique" Constraint bewirkt, dass Daten, die in dieser Spalte eingetragen
+werden einzigartig sind.
+"check" Constraints überprüfen, ob die angegebene Bedingung erfüllt wird. Hier
+können zum Beispiel Zahlenbereiche eingeschränkt werden, oder Enumerations
+nachgebildet werden.
+
+Kaskadiertes Löschen:
+Wenn man probiert einen Benutzer zu löschen, der schon zu einem Student oder
+Professor spezialisiert wurde, gibt es einen Fehler. Dieser besagt, dass erst
+Benutzer erst gelöscht werden können wenn keine Fremdschlüsselreferenzen zu
+diesem zeigen, da ansonsten die Zeile in der Student Tabelle keine Aussage mehr
+hätte.
+Dies kann automatisiert werden, in dem man einen Constraint hinzufügt, der das
+Löschen kaskadiert.
+
+Index:
+Ein Index beschleunigt das Finden von Daten in der Datenbank. Es dauert
+allerdings länger die Daten zuändern, da der Index ebenfalls geändert werden
+muss.
+Ein gefilterter Index nimmt, wie der Name schon sagt, nur Daten in den Index
+auf, die den Filter passieren.
+Ein "clustured" Index sorgt dafür, dass die physische Reihenfolge der Daten,
+der logischen entspricht.
+Ich habe einen Index für das Feld Forum.OberforumID erstellt, da dieses Feld
+sehr selten geändert wird, aber pro Seitenaufruf mehrmals abgefragt werden
+muss.
