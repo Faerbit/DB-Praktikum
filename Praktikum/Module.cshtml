@@ -1,29 +1,55 @@
-﻿@{
+﻿@using System.Data.SqlClient;
+@using System.Configuration;
+
+@{
     Layout = "~/Layout.cshtml";
         <table class="table">
             <thead>
                 <tr>
-                    <th>Fachnr.</th>
+                    <th><abbr title="Fachnummer">Fachnr.</abbr></th>
                     <th>Modulbezeichnung</th>
                     <th>Professor</th>
                 </tr>
             </thead>
             <tbody>
+                @{
+                    string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+                    var connection = new SqlConnection(connStr);
+                    var query = @"
+                    select Module.FachNummer, Module.Bezeichnung, Professoren.AkademischerTitel, Benutzer.Nachname, Module.Verantwortlicher
+                    from Module
+                    inner join Professoren on Module.Verantwortlicher = Professoren.Nickname
+                    join Benutzer on Professoren.Nickname = Benutzer.Nickname
+                    order by Module.FachNummer";
+                    var sqlcmd = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader reader = sqlcmd.ExecuteReader();
+                    string text = "";
+                    List<string> fachNrListe = new List<string>();
+                    List<string> bezeichnungListe = new List<string>();
+                    List<string> titelListe = new List<string>();
+                    List<string> nameListe = new List<string>();
+                    while(reader.Read()) {
+                        fachNrListe.Add(reader["FachNummer"].ToString());
+                        bezeichnungListe.Add(reader["Bezeichnung"].ToString());
+                        titelListe.Add(reader["AkademischerTitel"].ToString());
+                        nameListe.Add(reader["Nachname"].ToString());
+                    }
+                    connection.Close();
+                    for(int i = 0; i < titelListe.Count; i++){
+                    }
+
+                }
+                @for(int i = 0; i < fachNrListe.Count; i++) {
                 <tr>
-                    <td>501</td>
-                    <td>Datenbanken</td>
-                    <td>Prof. Dr. Ritz</td>
+                    <td>@fachNrListe[i]</td>
+                    <td>@bezeichnungListe[i]</td>
+                    <td>@titelListe[i] @nameListe[i]</td>
                 </tr>
-                <tr>
-                    <td>502</td>
-                    <td>Theoretische Informatik</td>
-                    <td>Prof. Dr. Fassbender</td>
-                </tr>
-                <tr>
-                    <td>503</td>
-                    <td>Architektur von Betriebssystemen</td>
-                    <td>Prof. Dr. Oßman</td>
-                </tr>
+                }
+               
+                
+                
             </tbody>
         </table>
         <hr />
