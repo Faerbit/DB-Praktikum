@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Layout.cshtml";
+    
+        <div class="row">
+            <div class="col-xs-4">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">Navigation</li>
+                    <li><a href="Module.cshtml">Aktuelle Module</a></li>
+                    <li>
+                        <a href="#">Benutzer</a>
+                        <ul>
+                            <li>Studenten</li>
+                            <li>Professoren</li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Dokumente</a></li>
+                    <li><a href="#">Forum</a></li>
+                    <li><a href="#">Hilfe</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-8">
+                <img src="images/quote.png" alt="Inspirational quote" class="img-rounded img-responsive" />
+            </div>
+        </div>
+        <form class="form" action="http://149.201.48.82/message.php" method="post">
+            <div class="form-group">
+                <label for="short-message-input"><span class="glyphicon glyphicon-envelope"></span> Eilmeldung</label>
+                <textarea class="form-control" id="short-message-input" name="message" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-default">Nachricht erstellen</button>
+        </form>
+}
