@@ -1,24 +1,32 @@
 ﻿@using System.Data.SqlClient;
 @using System.Configuration;
 
-@{
+@{  
     Layout = "~/Layout.cshtml";
-    <div class="row">
-        <div class="col-md-12">
-            @{
-                string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
-                var connection = new SqlConnection(connStr);
-                var query = @" 
-                    select Professoren.AkademischerTitel, Benutzer.Nachname from Professoren 
+    string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+    var connection = new SqlConnection(connStr);
+    var query = @"
+                    select Professoren.AkademischerTitel, Benutzer.Nachname from Professoren
                     join Benutzer on Professoren.Nickname = Benutzer.Nickname
                     where Professoren.Nickname = '" + @Request.QueryString["prof"] + "'";
-                var sqlcmd = new SqlCommand(query, connection);
-                connection.Open();
-                SqlDataReader reader = sqlcmd.ExecuteReader();
-                reader.Read();
-                string text = Praktikum.PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()) + " " + reader["Nachname"].ToString();
-                connection.Close();
-            }
+    var sqlcmd = new SqlCommand(query, connection);
+    connection.Open();
+    SqlDataReader reader = sqlcmd.ExecuteReader();
+    bool exists = false;
+    string text = "";
+    }@{
+    if (reader.Read()) {
+        text = Praktikum.PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()) + " " + reader["Nachname"].ToString();
+        exists = true;
+    }
+    connection.Close();
+}
+
+@{
+    
+    if (exists) {
+    <div class="row">
+        <div class="col-md-12">
             <h1>@Html.Raw(@text)</h1>
         </div>
     </div>
@@ -45,4 +53,25 @@
             </h3>
         </div>
     </div>
+    }
+    else
+    {
+        query = @"
+            select Professoren.AkademischerTitel, Benutzer.Nachname, Benutzer.Nickname from Professoren
+            join Benutzer on Professoren.Nickname = Benutzer.Nickname";
+        sqlcmd = new SqlCommand(query, connection);
+        connection.Open();
+        reader = sqlcmd.ExecuteReader();
+        List<string> professoren = new List<string>();
+        while(reader.Read()) {
+            professoren.Add(Praktikum.PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()) + " <a href=ProfSummary.cshtml?prof="
+                + reader["Nickname"] + ">" + reader["Nachname"].ToString() + "</a>");
+        }
+        connection.Close();
+        @Html.Raw(@"<div class=""alert alert-danger"">Professor mit dem Nickname " + @Request.QueryString["prof"] + " nicht gefunden.</div> Hier sind alle registrierten Professoren:<ul>")
+        foreach(string prof in professoren) {
+            <li>@Html.Raw(@prof)</li>
+        }
+        @Html.Raw("</ul>")
+    }
 }
