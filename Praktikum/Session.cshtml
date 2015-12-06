@@ -3,11 +3,19 @@
 
 @{
     Layout = "~/Layout.cshtml";
-    bool success = false;
+    if (IsPost && Session["authenticated"] != null && Session["authenticated"] != "") {
+        Session["authenticated"] = "";
+        Response.Redirect("Default.cshtml?logout=true");
+    }
+}
+
+@{
+
+        bool success = false;
     Validation.RequireField("user", "Benutzername ist erforderlich");
     Validation.RequireField("password", "Passwort ist erforderlich");
     } @{
-        if (Validation.IsValid() && IsPost)
+        if (Validation.IsValid())
         {
             string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
             var connection = new SqlConnection(connStr);
@@ -24,10 +32,12 @@
 
         
 @{
-    if (!success) {
-        Response.Redirect("Default.cshtml?error=password");
+    if (!success && IsPost)
+    {
+        <div class="alert alert-danger">Falscher Benutzername oder Passwort!</div>
     }
-    else {
+    else if (success)
+    {
         Session["authenticated"] = Request["user"];
         Response.Redirect("Default.cshtml?success=true");
     }
