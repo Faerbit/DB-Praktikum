@@ -1,1 +1,32 @@
-﻿@Request.QueryString["prof"]
+﻿@using System.Data.SqlClient;
+@using System.Configuration;
+
+
+@{
+    string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+    var connection = new SqlConnection(connStr);
+    var query = @"
+        select Bezeichnung from Module
+        where Verantwortlicher = '" + @Request.QueryString["prof"] + "'";
+    var sqlcmd = new SqlCommand(query, connection);
+    connection.Open();
+    SqlDataReader reader = sqlcmd.ExecuteReader();
+}@{
+    List<string> module = new List<string>();
+    while (reader.Read())
+    {
+        module.Add(reader["Bezeichnung"].ToString());
+    }
+    connection.Close();
+}
+@if (module.Count > 0) {
+@Html.Raw("<ul>")
+    foreach (string modul in module)
+    {
+        <li><a href="#">@modul</a></li>
+    }
+@Html.Raw("</ul>")
+}
+else {
+    @Html.Raw("<i>keine Module gefunden</i>")
+}
