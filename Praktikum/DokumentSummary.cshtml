@@ -1,1 +1,36 @@
-﻿@Request.QueryString["prof"]
+﻿@using System.Data.SqlClient;
+@using System.Configuration;
+
+
+@{
+    string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+    var connection = new SqlConnection(connStr);
+    var query = @"
+        select Titel, datediff(day, Bereitstellungsdatum, CURRENT_TIMESTAMP) as dayDiff 
+        from Dokumente where Benutzer = '" + @Request.QueryString["prof"] + "'";
+    var sqlcmd = new SqlCommand(query, connection);
+    connection.Open();
+    SqlDataReader reader = sqlcmd.ExecuteReader();
+}@{
+    List<string> titel = new List<string>();
+    List<string> tage = new List<string>();
+    while (reader.Read())
+    {
+        titel.Add(reader["Titel"].ToString());
+        tage.Add(reader["dayDiff"].ToString());
+    }
+    connection.Close();
+}
+@if (titel.Count > 0)
+{
+    @Html.Raw("<ul>")
+    for(int i = 0; i<titel.Count; i++)
+    {
+        <li><a href="#">@titel[i]</a> erstellt vor <span class="badge">@tage[i]</span> Tagen</li>
+    }
+    @Html.Raw("</ul> " + titel.Count + " Dokumente gefunden")
+}
+else
+{
+    @Html.Raw("<i>keine Dokumente gefunden</i>")
+}
