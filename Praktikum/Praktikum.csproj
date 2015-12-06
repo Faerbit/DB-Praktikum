@@ -96,7 +96,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="scripts\jquery-1.9.1.min.map" />
-    <Content Include="Logintest.cshtml" />
+    <Content Include="Login.cshtml" />
     <Content Include="Layout.cshtml" />
     <Content Include="ForumSummary.cshtml" />
     <Content Include="DokumentSummary.cshtml" />

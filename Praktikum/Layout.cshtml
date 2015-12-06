@@ -14,12 +14,20 @@
     <div class="container">
         <h1 class="page-header">Herzlich willkommen zum System</h1>
         Studentenportal der <a target="_blank" href="https://www.fh-aachen.de">FH Aachen</a>
-        @RenderBody()
+        @if(Request.QueryString["error"] == "login") {
+            <div class="alert alert-warning">Login erforderlich!</div>
+        }
+        @if ((Session["authenticated"] == null || Session["authenticated"] == "") && (Request.Url.AbsolutePath != "/Default.cshtml" && Request.Url.AbsolutePath != "/Login.cshtml")) {
+            Response.Redirect("Default.cshtml?error=login");
+        }
+        else {
+            @RenderBody()
+        }
         <footer class="footer">
             <div class="container">
                 <hr />
                 <div class="pull-left">
-                    <form class="form-inline" action="Logintest.cshtml" method="post">
+                    <form class="form-inline" action="Login.cshtml" method="post">
                         <div class="form-group">
                             <label for="user-name-input"><span class="glyphicon glyphicon-user"></span> Benutzer</label>
                             <input type="text" class="form-control" id="user-name-input" name="user" />

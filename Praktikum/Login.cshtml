@@ -1,0 +1,35 @@
+﻿@using System.Data.SqlClient;
+@using System.Configuration;
+
+@{
+    Layout = "~/Layout.cshtml";
+    bool success = false;
+    Validation.RequireField("user", "Benutzername ist erforderlich");
+    Validation.RequireField("password", "Passwort ist erforderlich");
+    } @{
+        if (Validation.IsValid() && IsPost)
+        {
+            string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+            var connection = new SqlConnection(connStr);
+            var query = @"
+                    select convert(varchar(32), Passwort, 2) as Passwort from Benutzer where Nickname = '" + @Request["user"] + "'";
+            var sqlcmd = new SqlCommand(query, connection);
+            connection.Open();
+            SqlDataReader reader = sqlcmd.ExecuteReader();
+            if (reader.Read() && Crypto.Hash(Request["password"], "md5").ToString() == reader["Passwort"].ToString())
+                success = true;
+            connection.Close();
+        }
+    }
+
+        
+@{
+    if (!success) {
+        Response.Redirect("Default.cshtml?error=password");
+    }
+    else {
+        Session["authenticated"] = Request["user"];
+        Response.Redirect("Default.cshtml?success=true");
+    }
+}
+
