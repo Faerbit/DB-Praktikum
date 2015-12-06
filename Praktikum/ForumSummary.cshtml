@@ -2,7 +2,6 @@
 @using System.Configuration;
 
 
-
 @{
     string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
     var connection = new SqlConnection(connStr);
@@ -12,18 +11,44 @@
         join Foren on Diskussionen.ForumID = Foren.ID
         where Benutzer = '" + @Request.QueryString["prof"] + "'";
     var sqlcmd = new SqlCommand(query, connection);
-    } @{ 
     connection.Open();
     SqlDataReader reader = sqlcmd.ExecuteReader();
+    }@{
     List<string> foren = new List<string>();
     while (reader.Read())
     {
         foren.Add(reader["Bezeichnung"].ToString());
     }
+    /*
+    string html = "";
+    foreach (string forum in foren) {
+    
+    List<string> forenBeitraege = new List<string>();    
+    query = @"
+        select Titel from Beiträge
+        join Diskussionen on Beiträge.DiskussionsID = Diskussionen.ID
+        join Foren on Diskussionen.ForumID = Foren.ID
+        where Benutzer = '" + @Request.QueryString["prof"] + "' and Foren.Bezeichnung = '" + forum + "'";
+    sqlcmd = new SqlCommand(query, connection);
+    reader = sqlcmd.ExecuteReader();
+    
+    while (reader.Read()) {
+        forenBeitraege.Add(reader["Titel"].ToString());
+    }
+    html += "<h3>" + forum + "</h3>";
+    foreach(string beitrag in forenBeitraege) {
+            html += beitrag;
+    }*/
     connection.Close();
 }
-
-@foreach (string forum in foren)
-            {
-    <h3>@forum</h3>
+@if (foren.Count > 0) {
+    foreach(string forum in foren) {
+        <h3>@forum</h3>
+    }
 }
+else {
+    @Html.Raw("<i>keine Beiträge gefunden</i>")
+}
+
+
+
