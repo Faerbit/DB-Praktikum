@@ -45,6 +45,7 @@
     foreach(string forum in foren) {
         <h3>@forum</h3>
     }
+    @Html.Raw("Beiträge in " + foren.Count + " Foren gefunden") 
 }
 else {
     @Html.Raw("<i>keine Beiträge gefunden</i>")
