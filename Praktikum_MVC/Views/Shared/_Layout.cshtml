@@ -4,11 +4,11 @@
     <title>Startseite</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="scripts/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="content/bootstrap-theme.min.css" />
-    <link rel="stylesheet" href="content/bootstrap.min.css" />
-    <link rel="stylesheet" href="content/footer.css" />
-    <link rel="stylesheet" href="content/simple-sidebar.css" />
+    <script src="@Url.Content("~/scripts/bootstrap.min.js")"></script>
+    <link rel="stylesheet" href="@Url.Content("~/content/bootstrap-theme.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/content/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/content/footer.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/content/simple-sidebar.css")" />
 </head>
 <body>
     <div class="container">
@@ -25,9 +25,9 @@
         {
             <div class="alert alert-success">Logout erfolgreich!</div>
         }
-        @*@if ((Session["authenticated"] == null || Session["authenticated"] == "") && (Request.Url.LocalPath != "/Default.cshtml" && Request.Url.LocalPath != "/Session.cshtml")) {
-            Response.Redirect("Default.cshtml?error=login");
-        }*@
+        @if ((Session["authenticated"] == null || Session["authenticated"] == "") && (Request.Url.LocalPath.ToLower() != "/" && Request.Url.LocalPath.ToLower() != "/home/index" &&Request.Url.LocalPath.ToLower() != "/home/index" && Request.Url.LocalPath.ToLower() != "/Session.cshtml")) {
+            Response.Redirect("/home/index?error=login");
+        }
         else {
             @RenderBody()
         }
