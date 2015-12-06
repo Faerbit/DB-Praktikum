@@ -104,6 +104,7 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="ProfSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="content\bootstrap-theme.css" />
