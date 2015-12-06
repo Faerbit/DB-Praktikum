@@ -24,7 +24,6 @@
                     var sqlcmd = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader reader = sqlcmd.ExecuteReader();
-                    string text = "";
                     List<string> fachNrListe = new List<string>();
                     List<string> bezeichnungListe = new List<string>();
                     List<string> titelListe = new List<string>();
@@ -39,34 +38,7 @@
                     }
                     connection.Close();
                     for(int i = 0; i < titelListe.Count; i++){
-                        string tmp = titelListe[i];
-                        string _short = tmp;
-                        string _long = "";
-                        int index = tmp.IndexOf("Prof.");
-                        while (index != -1) {
-                            tmp = tmp.Remove(index, "Prof.".Length);
-                            _long += "Professor ";
-                            index = tmp.IndexOf("Prof.");
-                        }
-                        index = tmp.IndexOf("Dr.");
-                        while (index != -1) {
-                            tmp = tmp.Remove(index, "Dr.".Length);
-                            _long += "Doktor ";
-                            index = tmp.IndexOf("Dr.");
-                        }
-                        index = tmp.IndexOf("rer. nat.");
-                        while (index != -1) {
-                            tmp = tmp.Remove(index, "rer. nat.".Length);
-                            _long += "rerum naturalium ";
-                            index = tmp.IndexOf("rer. nat.");
-                        }
-                        index = tmp.IndexOf("Ing.");
-                        while (index != -1) {
-                            tmp = tmp.Remove(index, "Ing.".Length);
-                            _long += "Ingenieur ";
-                            index = tmp.IndexOf("Ing.");
-                        }
-                        titelListe[i] = @"<abbr title=""" + _long + @""">" + _short + "</abbr>";
+                        titelListe[i] = Praktikum.PrakHelpers.profTitelHelper(titelListe[i]);
                     }
 
                 }

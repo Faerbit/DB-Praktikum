@@ -1,18 +1,41 @@
-﻿@{
+﻿@using System.Data.SqlClient;
+@using System.Configuration;
+@using Praktikum;
+
+@{
     Layout = "~/Layout.cshtml";
     <div class="row">
         <div class="col-md-12">
-            <h1>@Request.QueryString["prof"]</h1>
+            @{
+                string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+                var connection = new SqlConnection(connStr);
+                var query = @" 
+                    select Professoren.AkademischerTitel, Benutzer.Nachname from Professoren 
+                    join Benutzer on Professoren.Nickname = Benutzer.Nickname
+                    where Professoren.Nickname = '" + @Request.QueryString["prof"] + "'";
+                var sqlcmd = new SqlCommand(query, connection);
+                connection.Open();
+                SqlDataReader reader = sqlcmd.ExecuteReader();
+                reader.Read();
+                string text = PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()) + " " + reader["Nachname"].ToString();
+                connection.Close();
+            }
+            <h1>@Html.Raw(@text)</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Forum Beiträge</h1>
+            @RenderPage("~/ForumSummary.cshtml")
         </div>
         <div class="col-md-6">
-            <h1>Forum Beiträge</h1>asdf
-        </div>
-        <div class="row">
-            <div class="col-md-6">
+            <div class="row">
                 <h1>Bereitgestellte Dokumente</h1>
+                @RenderPage("~/DokumentSummary.cshtml")
             </div>
-            <div class="col-md-6">
+            <div class="row">
                 <h1>Verantworlich für folgende Module</h1>
+                @RenderPage("~/ModuleSummary.cshtml")
             </div>
         </div>
     </div>

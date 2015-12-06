@@ -98,6 +98,9 @@
     <Content Include="scripts\jquery-1.9.1.min.map" />
     <Content Include="Logintest.cshtml" />
     <Content Include="Layout.cshtml" />
+    <Content Include="ForumSummary.cshtml" />
+    <Content Include="DokumentSummary.cshtml" />
+    <Content Include="ModuleSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -131,6 +134,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
