@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Startseite</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="scripts/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="content/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="content/bootstrap.min.css" />
+    <link rel="stylesheet" href="content/footer.css" />
+    <link rel="stylesheet" href="content/simple-sidebar.css" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-header">Herzlich willkommen zum System</h1>
+        Studentenportal der <a target="_blank" href="https://www.fh-aachen.de">FH Aachen</a>
+        @if(Request.QueryString["error"] == "login") {
+            <div class="alert alert-warning">Login erforderlich!</div>
+        }
+        @if (Request.QueryString["success"] == "true")
+        {
+            <div class="alert alert-success">Login erfolgreich!</div>
+        }
+        @if (Request.QueryString["logout"] == "true")
+        {
+            <div class="alert alert-success">Logout erfolgreich!</div>
+        }
+        @*@if ((Session["authenticated"] == null || Session["authenticated"] == "") && (Request.Url.LocalPath != "/Default.cshtml" && Request.Url.LocalPath != "/Session.cshtml")) {
+            Response.Redirect("Default.cshtml?error=login");
+        }*@
+        else {
+            @RenderBody()
+        }
+        <footer class="footer">
+            <div class="container">
+                <hr />
+                <div class="pull-left">
+                    @if ((Session["authenticated"] == null || Session["authenticated"] == "")) {
+                    <form class="form-inline" action="Session.cshtml" method="post">
+                        <div class="form-group">
+                            <label for="user-name-input"><span class="glyphicon glyphicon-user"></span> Benutzer</label>
+                            <input type="text" class="form-control" id="user-name-input" name="user" value="@Request["user"]"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password-input"><span class="glyphicon glyphicon-asterisk"></span> Passwort</label>
+                            <input type="password" class="form-control" id="password-input" name="password" />
+                        </div>
+                        <button type="submit" class="btn btn-default">Anmelden</button>
+                    </form>}
+                    else {
+                        <form class="form-inline" action="Session.cshtml" method="post">
+                        <div class="form-group">
+                            <label for="user-name-input"><span class="glyphicon glyphicon-user"></span> Benutzer</label>
+                            <input type="text" class="form-control" id="user-name-input" name="user" value="@Session["authenticated"]" disabled/>
+                        </div>
+                        <button type="submit" class="btn btn-default">Abmelden</button>
+                        </form>
+                    }
+                </div>
+                <div class="pull-right">
+                     @DateTime.Now.ToLongDateString() @DateTime.Now.ToShortTimeString()
+                </div>
+            </div>
+        </footer>
+       </div>
+</body>
+</html>
