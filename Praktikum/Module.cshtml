@@ -29,11 +29,13 @@
                     List<string> bezeichnungListe = new List<string>();
                     List<string> titelListe = new List<string>();
                     List<string> nameListe = new List<string>();
+                    List<string> verantwListe = new List<string>();
                     while(reader.Read()) {
                         fachNrListe.Add(reader["FachNummer"].ToString());
                         bezeichnungListe.Add(reader["Bezeichnung"].ToString());
                         titelListe.Add(reader["AkademischerTitel"].ToString());
                         nameListe.Add(reader["Nachname"].ToString());
+                        verantwListe.Add(reader["Verantwortlicher"].ToString());
                     }
                     connection.Close();
                     for(int i = 0; i < titelListe.Count; i++){
@@ -72,7 +74,7 @@
                 <tr>
                     <td>@fachNrListe[i]</td>
                     <td>@bezeichnungListe[i]</td>
-                    <td>@Html.Raw(@titelListe[i]) @nameListe[i]</td>
+                    <td>@Html.Raw(@titelListe[i]) <a href="ProfSummary.cshtml" name="prof" value="@verantwListe[i]">@nameListe[i]</a></td>
                 </tr>
                 }
                
