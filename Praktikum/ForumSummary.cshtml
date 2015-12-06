@@ -1,1 +1,23 @@
-﻿@Request.QueryString["prof"]
+﻿@using System.Data.SqlClient;
+@using System.Configuration;
+
+
+
+@{
+    string _connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+    var _connection = new SqlConnection(_connStr);
+    var _query = @"
+        select Bezeichnung from Beiträge
+        join Diskussionen on Beiträge.DiskussionsID = Diskussionen.ID
+        join Foren on Diskussionen.ForumID = Foren.ID
+        where Benutzer = '" + @Request.QueryString["prof"] + "'";
+    var _sqlcmd = new SqlCommand(_query, _connection);
+    _connection.Open();
+    SqlDataReader _reader = _sqlcmd.ExecuteReader();
+    List<string> foren = new List<string>();
+    while (reader.Read())
+    {
+        foren.Add(reader["Bezeichnung"].ToString());
+    }
+    _connection.Close();
+}

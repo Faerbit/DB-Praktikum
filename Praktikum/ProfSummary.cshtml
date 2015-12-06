@@ -1,6 +1,5 @@
 ﻿@using System.Data.SqlClient;
 @using System.Configuration;
-@using Praktikum;
 
 @{
     Layout = "~/Layout.cshtml";
@@ -17,7 +16,7 @@
                 connection.Open();
                 SqlDataReader reader = sqlcmd.ExecuteReader();
                 reader.Read();
-                string text = PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()) + " " + reader["Nachname"].ToString();
+                string text = Praktikum.PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()) + " " + reader["Nachname"].ToString();
                 connection.Close();
             }
             <h1>@Html.Raw(@text)</h1>
@@ -25,8 +24,28 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <h1>Forum Beiträge</h1>
-            @RenderPage("~/ForumSummary.cshtml")
+    <h1>Forum Beiträge</h1>
+    
+        @{string _connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+                var _connection = new SqlConnection(_connStr);
+                var _query = "select Bezeichnung from Beiträge join Diskussionen on Beiträge.DiskussionsID = Diskussionen.ID join Foren on Diskussionen.ForumID = Foren.ID where Benutzer = '" + @Request.QueryString["prof"] + "'";
+                var _sqlcmd = new SqlCommand(_query, _connection);
+            }@{ 
+            _connection.Open();
+                SqlDataReader _reader = _sqlcmd.ExecuteReader();
+            List<string> foren = new List<string>();
+                while (_reader.Read())
+                {
+                    foren.Add(_reader["Bezeichnung"].ToString());
+                }
+                _connection.Close();
+            }
+
+            @foreach (string forum in foren)
+            {
+                <h3>@forum</h3>
+            }
+
         </div>
         <div class="col-md-6">
             <div class="row">
