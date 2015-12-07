@@ -1,0 +1,77 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <div class="container">
+        <form action="@Url.Action("NewUser", "User")" method="post">
+            @if (!ViewData.ModelState.IsValidField("username"))
+            {
+                <div class="form-group has-error">
+                    <label for="username-input">Benutzername</label>
+                    <input type="text" class="form-control" id="username-input" name="username" placeholder="Benutzername" value="@Request["username"]" />
+                    <span class="help-block">@Html.ValidationMessage("username")</span>
+                </div>
+            }
+            else
+            {
+            <div class="form-group">
+                <label for="username-input">Benutzername</label>
+                <input type="text" class="form-control" id="username-input" name="username" placeholder="Benutzername" value="@Request["username"]" />
+            </div>
+            }
+            <div class="form-group">
+                <label for="vorname-input">Vorname</label>
+                <input type="text" class="form-control" id="vorname-input" name="vorname" placeholder="Vorname" value="@Request["vorname"]"/>
+            </div>
+            <div class="form-group">
+                <label for="nachname-input">Nachname</label>
+                <input type="text" class="form-control" id="nachname-input" name="nachname" placeholder="Nachname" value="@Request["nachname"]"/>
+            </div>
+            @if (!ViewData.ModelState.IsValidField("email"))
+            {
+            <div class="form-group has-error">
+                <label for="email-input">E-mail</label>
+                <input type="email" class="form-control" id="email-input" name="email" placeholder="E-mail" value="@Request["email"]"/>
+                <span class="help-block">@Html.ValidationMessage("email")</span>
+            </div>
+            }
+            else {
+            <div class="form-group">
+                <label for="email-input">E-mail</label>
+                <input type="email" class="form-control" id="email-input" name="email" placeholder="E-mail" value="@Request["email"]"/>
+            </div>
+            }
+            @if (!ViewData.ModelState.IsValidField("password")) {
+            <div class="form-group has-error">
+                <label for="password-input">Passwort</label>
+                <input type="password" class="form-control" id="password-input" name="password" placeholder="Passwort" value="@Request["password"]"/>
+                <span class="help-block">@Html.ValidationMessage("password")</span>
+            </div>
+            }
+            else {
+            <div class="form-group">
+                <label for="password-input">Passwort</label>
+                <input type="password" class="form-control" id="password-input" name="password" placeholder="Passwort" value="@Request["password"]"/>
+            </div>
+            }
+            @if (!ViewData.ModelState.IsValidField("password_confirm"))
+            {
+                <div class="form-group has-error">
+                    <label for="password-confirm-input">Passwort</label>
+                    <input type="password" class="form-control" id="password-confirm-input" name="password_confirm" placeholder="Passwort" value="@Request["password_confirm"]"/>
+                    <span class="help-block">@Html.ValidationMessage("password_confirm")</span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label for="password-confirm-input">Passwort</label>
+                    <input type="password" class="form-control" id="password-confirm-input" name="password_confirm" placeholder="Passwort" value="@Request["password_confirm"]"/>
+                </div>
+            }
+            <div class="pull-right">
+                <button type="submit" class="btn btn-default">Speichern</button>
+            </div>
+        </form>
+    </div>
+}
+
+
