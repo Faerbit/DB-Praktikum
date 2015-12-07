@@ -1,8 +1,8 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.title = "Professor " + ViewBag.professor.name;
 
     if (ViewBag.exists) {
+    ViewBag.title = "Professor " + ViewBag.professor.name;
     <div class="row">
         <div class="col-md-12">
             <h1>@Html.Raw(ViewBag.professor.titel + " " +ViewBag.professor.name)</h1>
@@ -66,6 +66,7 @@
     
     }
     else {
+        ViewBag.title = "Professorenübersicht ";
         @Html.Raw(@"<div class=""alert alert-danger"">Professor mit dem Nickname " + @Url.RequestContext.RouteData.Values["id"]
             + " nicht gefunden.</div> Hier sind alle registrierten Professoren:<ul>")
         foreach(Praktikum_MVC.Models.Professor prof in ViewBag.professoren) {
