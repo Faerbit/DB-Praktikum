@@ -44,21 +44,21 @@
             @if (!ViewData.ModelState.IsValidField("password")) {
             <div class="form-group has-error">
                 <label for="password-input">Passwort</label>
-                <input type="password" class="form-control" id="password-input" name="password" placeholder="Passwort" value="@Request["password"]"/>
+                <input type="password" class="form-control" id="password-input" name="password" placeholder="Passwort" />
                 <span class="help-block">@Html.ValidationMessage("password")</span>
             </div>
             }
             else {
             <div class="form-group">
                 <label for="password-input">Passwort</label>
-                <input type="password" class="form-control" id="password-input" name="password" placeholder="Passwort" value="@Request["password"]"/>
+                <input type="password" class="form-control" id="password-input" name="password" placeholder="Passwort" />
             </div>
             }
             @if (!ViewData.ModelState.IsValidField("password_confirm"))
             {
                 <div class="form-group has-error">
                     <label for="password-confirm-input">Passwort</label>
-                    <input type="password" class="form-control" id="password-confirm-input" name="password_confirm" placeholder="Passwort" value="@Request["password_confirm"]"/>
+                    <input type="password" class="form-control" id="password-confirm-input" name="password_confirm" placeholder="Passwort" />
                     <span class="help-block">@Html.ValidationMessage("password_confirm")</span>
                 </div>
             }
@@ -66,7 +66,7 @@
             {
                 <div class="form-group">
                     <label for="password-confirm-input">Passwort</label>
-                    <input type="password" class="form-control" id="password-confirm-input" name="password_confirm" placeholder="Passwort" value="@Request["password_confirm"]"/>
+                    <input type="password" class="form-control" id="password-confirm-input" name="password_confirm" placeholder="Passwort" />
                 </div>
             }
             <div class="pull-right">
