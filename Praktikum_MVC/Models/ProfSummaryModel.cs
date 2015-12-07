@@ -8,6 +8,35 @@ using System.Configuration;
 
 namespace Praktikum_MVC.Models
 {
+    public class Professor {
+        public string titel {get; set; }
+        public string name {get; set; }
+        public string nickname {get; set; }
+
+        public static List<Professor> getAll() {
+            var connectionString = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+            var connection = new SqlConnection(connectionString);
+            connection.Open();
+            var query = @"
+                select AkademischerTitel, Nachname, Professoren.Nickname 
+                from Professoren
+                join Benutzer on Professoren.Nickname = Benutzer.Nickname";
+            var command = new SqlCommand(query, connection);
+            var reader = command.ExecuteReader();
+            List<Professor> result = new List<Professor>();
+            while(reader.Read()) {
+                var professor = new Professor
+                {
+                    name = reader["Nachname"].ToString(),
+                    titel = Praktikum_MVC.PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()),
+                    nickname = reader["Nickname"].ToString()
+                };
+                result.Add(professor);
+            }
+            return result;
+        }
+    }
+
     public class ProfSummary
     {
         public string titel { get; set; }
@@ -16,7 +45,24 @@ namespace Praktikum_MVC.Models
         public List<Dokument> dokumente { get; set; }
         public List<Modul> module { get; set; }
 
-        //public static Boolean exists
+        public static Boolean exists(string nickname) {
+            var connectionString = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+            var connection = new SqlConnection(connectionString);
+            connection.Open();
+            var query = @"
+                select * 
+                from Professoren
+                where Professoren.Nickname = @nickname";
+            var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@nickname", nickname);
+            var reader = command.ExecuteReader();
+            if (reader.Read()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
 
         public static ProfSummary load(string nickname)
         {
