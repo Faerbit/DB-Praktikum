@@ -19,11 +19,11 @@ namespace Praktikum_MVC.Models
             string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
             var connection = new SqlConnection(connStr);
             var query = @"
-            select Module.FachNummer, Module.Bezeichnung, Professoren.AkademischerTitel, Benutzer.Nachname, Module.Verantwortlicher
-            from Module
-            inner join Professoren on Module.Verantwortlicher = Professoren.Nickname
-            join Benutzer on Professoren.Nickname = Benutzer.Nickname
-            order by Module.FachNummer";
+                select Module.FachNummer, Module.Bezeichnung, Professoren.AkademischerTitel, Benutzer.Nachname, Module.Verantwortlicher
+                from Module
+                inner join Professoren on Module.Verantwortlicher = Professoren.Nickname
+                join Benutzer on Professoren.Nickname = Benutzer.Nickname
+                order by Module.FachNummer";
             var sqlcmd = new SqlCommand(query, connection);
             connection.Open();
             SqlDataReader reader = sqlcmd.ExecuteReader();
@@ -35,6 +35,27 @@ namespace Praktikum_MVC.Models
                     titel = Praktikum.PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()),
                     name = reader["Nachname"].ToString(),
                     verantwortlicher = reader["Verantwortlicher"].ToString()
+                };
+                result.Add(modul);
+            }
+            connection.Close();
+            return result;
+        }
+
+        public static List<Modul> getByUser(string user) {
+            string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+            var connection = new SqlConnection(connStr);
+            var query = @"
+                select Bezeichnung from Module
+                where Verantwortlicher = @user";
+            var sqlcmd = new SqlCommand(query, connection);
+            sqlcmd.Parameters.AddWithValue("@user", user);
+            connection.Open();
+            SqlDataReader reader = sqlcmd.ExecuteReader();
+            List<Modul> result = new List<Modul>();
+            while(reader.Read()) {
+                Modul modul = new Modul {
+                    bezeichnung = reader["Bezeichnung"].ToString(),
                 };
                 result.Add(modul);
             }

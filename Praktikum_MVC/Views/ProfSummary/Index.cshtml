@@ -1,0 +1,99 @@
+﻿@using System.Data.SqlClient;
+@using System.Configuration;
+
+@*{  
+    Layout = "~/Layout.cshtml";
+    string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+    var connection = new SqlConnection(connStr);
+    var query = @"
+                    select Professoren.AkademischerTitel, Benutzer.Nachname from Professoren
+                    join Benutzer on Professoren.Nickname = Benutzer.Nickname
+                    where Professoren.Nickname = '" + @Request.QueryString["prof"] + "'";
+    var sqlcmd = new SqlCommand(query, connection);
+    connection.Open();
+    SqlDataReader reader = sqlcmd.ExecuteReader();
+    bool exists = false;
+    string text = "";
+    }@{
+    if (reader.Read()) {
+        text = Praktikum.PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()) + " " + reader["Nachname"].ToString();
+        exists = true;
+    }
+    connection.Close();
+}*@
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.exists) {
+    <div class="row">
+        <div class="col-md-12">
+            <h1>@Html.Raw(ViewBag.professor.nickname)</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+    <h1>Forum Beiträge</h1>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <h1>Bereitgestellte Dokumente</h1>
+                <ul>
+                    @foreach (Praktikum_MVC.Models.Dokument dokument in ViewBag.professor.dokumente) {
+                        <li><a href="#">@dokument.titel</a> erstellt vor <span class="badge">@dokument.bereitstellung</span> Tagen</li>
+                    }
+                </ul>
+                @if (ViewBag.professor.dokumente.Count > 0) {
+                    @Html.Raw(@ViewBag.professor.dokumente.Count.ToString() + " Dokumente gefunden")
+                }
+                else {
+                    @Html.Raw("<i>keine Dokumente gefunden</i>")
+                }
+            </div>
+            <div class="row">
+                <h1>Verantworlich für folgende Module</h1>
+                <ul>
+                    @foreach (Praktikum_MVC.Models.Modul modul in ViewBag.professor.module)
+                    {
+                        <li><a href="#">@modul.bezeichnung</a></li>
+                    }
+                </ul>
+                @if (ViewBag.professor.module.Count > 0) {
+                    @Html.Raw(@ViewBag.professor.module.Count.ToString() + " Module gefunden")
+                }
+                else {
+                    @Html.Raw("<i>keine Module gefunden</i>")
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="pull-right">
+            <h3>
+                <a href="@Url.Action("Index", "Module")">Aktuelle Module</a>
+            </h3>
+        </div>
+    </div>
+    }
+}
+    @*}
+    else
+    {
+        query = @"
+            select Professoren.AkademischerTitel, Benutzer.Nachname, Benutzer.Nickname from Professoren
+            join Benutzer on Professoren.Nickname = Benutzer.Nickname";
+        sqlcmd = new SqlCommand(query, connection);
+        connection.Open();
+        reader = sqlcmd.ExecuteReader();
+        List<string> professoren = new List<string>();
+        while(reader.Read()) {
+            professoren.Add(Praktikum.PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()) + " <a href=ProfSummary.cshtml?prof="
+                + reader["Nickname"] + ">" + reader["Nachname"].ToString() + "</a>");
+        }
+        connection.Close();
+        @Html.Raw(@"<div class=""alert alert-danger"">Professor mit dem Nickname " + @Request.QueryString["prof"] + " nicht gefunden.</div> Hier sind alle registrierten Professoren:<ul>")
+        foreach(string prof in professoren) {
+            <li>@Html.Raw(@prof)</li>
+        }
+        @Html.Raw("</ul>")
+    }
+}*@

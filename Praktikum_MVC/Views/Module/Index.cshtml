@@ -13,7 +13,7 @@
                 <tr>
                     <td>@modul.fachNr</td>
                     <td>@modul.bezeichnung</td>
-                    <td>@Html.Raw(modul.titel) <a href="ProfSummary.cshtml?prof=@modul.verantwortlicher">@modul.name</a></td>
+                    <td>@Html.Raw(modul.titel) <a href="@Url.Action("Index", "ProfSummary", new {id = modul.verantwortlicher })">@modul.name</a></td>
                 </tr>
                 }
             </tbody>
