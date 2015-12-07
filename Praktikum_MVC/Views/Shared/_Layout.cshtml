@@ -17,7 +17,7 @@
         @if(Request.QueryString["error"] == "login") {
             <div class="alert alert-warning">Login erforderlich!</div>
         }
-        @if (Request.QueryString["success"] == "true")
+        @if (Request.QueryString["login"] == "true")
         {
             <div class="alert alert-success">Login erfolgreich!</div>
         }
@@ -25,22 +25,23 @@
         {
             <div class="alert alert-success">Logout erfolgreich!</div>
         }
-        @*if ((Session["authenticated"] == null || Session["authenticated"] == "") && (Request.Url.LocalPath.ToLower() != "/" && Request.Url.LocalPath.ToLower() != "/home/index" &&Request.Url.LocalPath.ToLower() != "/home/index" && Request.Url.LocalPath.ToLower() != "/Session.cshtml")) {
-            Response.Redirect("/home/index?error=login");
+        @if ((Session["authenticated"] == null || Session["authenticated"] == "")
+            && (Request.Url.LocalPath != "/" && Request.Url.LocalPath != Url.Action("Index", "Home")
+            && Request.Url.LocalPath != Url.Action("Index", "Session"))) {
+            Response.Redirect(Url.Action("Index", "Home", new {error = "login" }));
         }
         else {
             @RenderBody()
-        }*@
-        @RenderBody()
+        }
         <footer class="footer">
             <div class="container">
                 <hr />
                 <div class="pull-left">
                     @if ((Session["authenticated"] == null || Session["authenticated"] == "")) {
-                    <form class="form-inline" action="Session.cshtml" method="post">
+                    <form class="form-inline" action="@Url.Action("Index", "Session")" method="post">
                         <div class="form-group">
                             <label for="user-name-input"><span class="glyphicon glyphicon-user"></span> Benutzer</label>
-                            <input type="text" class="form-control" id="user-name-input" name="user" value="@Request["user"]"/>
+                            <input type="text" class="form-control" id="user-name-input" name="username" value="@Request["username"]"/>
                         </div>
                         <div class="form-group">
                             <label for="password-input"><span class="glyphicon glyphicon-asterisk"></span> Passwort</label>
@@ -49,7 +50,7 @@
                         <button type="submit" class="btn btn-default">Anmelden</button>
                     </form>}
                     else {
-                        <form class="form-inline" action="Session.cshtml" method="post">
+                        <form class="form-inline" action="@Url.Action("Index", "Session")" method="post">
                         <div class="form-group">
                             <label for="user-name-input"><span class="glyphicon glyphicon-user"></span> Benutzer</label>
                             <input type="text" class="form-control" id="user-name-input" name="user" value="@Session["authenticated"]" disabled/>
