@@ -71,3 +71,45 @@ der logischen entspricht.
 Ich habe einen Index für das Feld Forum.OberforumID erstellt, da dieses Feld
 sehr selten geändert wird, aber pro Seitenaufruf mehrmals abgefragt werden
 muss.
+
+
+Block 2:
+
+Select und Project haben die Aufgabe Zeilen und Spalten aus der Tabelle
+auszuwählen, die ein gewisses Kriterium erfüllen.
+
+Group by bewirkt, dass gleiche Einträge einer spezifizierten Spalte
+zusammengefasst werden.
+
+Where wird benutzt um nur gewisse selektierte Reihen auszuwählen. Es wird also
+mit Select benutzt. Having hingegen wird in Verbindung mit Group by benutzt.
+
+Zwei Tabellen sind Union kompatibel, wenn sie die gleiche Anzahl Spalten haben,
+und die Spalten jeweils den gleichen Datentyp.
+
+ConnectionString:
+"Data Source=FAB-PC\SQLEXPRESS;Initial Catalog=praktikum;Integrated Security=True"
+
+Der clientseitige Redirect ist eher als Hinweis für den Benutzer/Browser zu
+sehen, wohin man am besten als nächstes surft.
+Ein evtl. bosartiger Benutzer könnte diesen Hinweis ignorieren, und ganz
+woanders hinsurfen.  Ein serverseitiger Redirect lässt keine andere Möglichkeit
+zu außerdem dem Redirect zu folgen, oder die Verbindung abzubrechen.
+
+Ein Login-Log könnte die IP-Adresse, den aktuellen Zeitstempel, und den
+gewünschten Benutzer enthalten. So könnte man gewisse Limits für Loginversuche
+erzwingen. Vorraussetzung dafür ist, das die jeweiligen Daten bekannt und
+unverfälscht sind (IP-Adresse ist zum Beispiel problematisch: Proxies, ...).
+
+Um ein nicht-MVC Webprojektin ein MVC Projekt zu überführen, muss die
+Funktionalität aus den cshtml Dateien in Controller und Models überführt
+werden. Dazu muss der Code je nach Funktionalität getrennt werden. Dabei ist
+darauf zu achten, wie die Daten zwischen den verschiedenen Komponenten
+übergeben wurde und wird.
+
+Ich habe die Views derart unterteilt, so dass nach Möglichkeit jede Funktion
+ihre eigene View hat.
+
+Um einen Benutzer hinzufügen zu können musste ein weiteres Attribut(das
+bestätigte Passwort) hinzugefügt werden. Außerdem mussten alle Felder
+entsprechend ihren Anforderungen validiert werden.
