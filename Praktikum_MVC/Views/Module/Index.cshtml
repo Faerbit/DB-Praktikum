@@ -1,5 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.title = "Module";
+
         <table class="table">
             <thead>
                 <tr>
@@ -9,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(Praktikum_MVC.Models.Modul modul in ViewBag.Module) {
+                @foreach (Praktikum_MVC.Models.Modul modul in ViewBag.Module) {
                 <tr>
                     <td>@modul.fachNr</td>
                     <td>@modul.bezeichnung</td>
