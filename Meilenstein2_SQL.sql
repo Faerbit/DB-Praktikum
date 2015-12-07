@@ -64,10 +64,7 @@ DROP TABLE [Module]
 GO
 
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Forum]') AND type in (N'U'))
-DROP TABLE [Forum]
 
-GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Diskussion]') AND type in (N'U'))
 DROP TABLE [Diskussion]
@@ -92,6 +89,11 @@ GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Foren]') AND type in (N'U'))
 DROP TABLE [Foren]
+
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Forum]') AND type in (N'U'))
+DROP TABLE [Forum]
 
 GO
 
