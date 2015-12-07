@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><abbr title="Fachnummer">Fachnr.</abbr></th>
+                    <th>Modulbezeichnung</th>
+                    <th>Professor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(Praktikum_MVC.Models.Modul modul in ViewBag.Module) {
+                <tr>
+                    <td>@modul.fachNr</td>
+                    <td>@modul.bezeichnung</td>
+                    <td>@Html.Raw(modul.titel) <a href="ProfSummary.cshtml?prof=@modul.verantwortlicher">@modul.name</a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+        <form class="form-inline" action="http://www.google.de/search" target="_blank">
+            <div class="form-group">
+                <label for="search-input"><span class="glyphicon glyphicon-search"></span> Suche</label>
+                <input type="text" class="form-control" id="search-input" name="q" />
+            </div>
+            <input type="hidden" name="as_sitesearch" value="http://www.fh-aachen.de" />
+            <button type="submit" class="btn btn-default">Suchen</button>
+        </form>
+}

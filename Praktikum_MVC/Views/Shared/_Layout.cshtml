@@ -25,12 +25,13 @@
         {
             <div class="alert alert-success">Logout erfolgreich!</div>
         }
-        @if ((Session["authenticated"] == null || Session["authenticated"] == "") && (Request.Url.LocalPath.ToLower() != "/" && Request.Url.LocalPath.ToLower() != "/home/index" &&Request.Url.LocalPath.ToLower() != "/home/index" && Request.Url.LocalPath.ToLower() != "/Session.cshtml")) {
+        @*if ((Session["authenticated"] == null || Session["authenticated"] == "") && (Request.Url.LocalPath.ToLower() != "/" && Request.Url.LocalPath.ToLower() != "/home/index" &&Request.Url.LocalPath.ToLower() != "/home/index" && Request.Url.LocalPath.ToLower() != "/Session.cshtml")) {
             Response.Redirect("/home/index?error=login");
         }
         else {
             @RenderBody()
-        }
+        }*@
+        @RenderBody()
         <footer class="footer">
             <div class="container">
                 <hr />
