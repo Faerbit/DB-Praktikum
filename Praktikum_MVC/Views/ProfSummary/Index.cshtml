@@ -27,12 +27,31 @@
     if (ViewBag.exists) {
     <div class="row">
         <div class="col-md-12">
-            <h1>@Html.Raw(ViewBag.professor.nickname)</h1>
+            <h1>@Html.Raw(ViewBag.professor.titel + " " +ViewBag.professor.name)</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
-    <h1>Forum Beiträge</h1>
+            <h1>Forum Beiträge</h1>
+                @{ int count = 0; }
+                @foreach (Praktikum_MVC.Models.Forum forum in ViewBag.professor.foren)
+                {
+                    <h3>@forum.name</h3>
+                    <ul>
+                    @foreach(Praktikum_MVC.Models.Beitrag beitrag in forum.beitraege) {
+                        <li><a href="#">@beitrag.titel</a> erstellt vor <span class="badge">@beitrag.alter</span> Tagen</li>
+                        count++;
+                    }
+                    </ul>
+                }
+                @if (ViewBag.professor.foren.Count > 0)
+                {
+                    @Html.Raw(@count.ToString() + " Beiträge in " + @ViewBag.professor.foren.Count.ToString() + " Foren gefunden")
+                }
+                else
+                {
+                    @Html.Raw("<i>keine Beiträge gefunden</i>")
+                }
         </div>
         <div class="col-md-6">
             <div class="row">
@@ -50,7 +69,7 @@
                 }
             </div>
             <div class="row">
-                <h1>Verantworlich für folgende Module</h1>
+                <h1>Verantwortlich für folgende Module</h1>
                 <ul>
                     @foreach (Praktikum_MVC.Models.Modul modul in ViewBag.professor.module)
                     {

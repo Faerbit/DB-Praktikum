@@ -32,7 +32,7 @@ namespace Praktikum_MVC.Models
                 Modul modul = new Modul {
                     fachNr = reader["FachNummer"].ToString(),
                     bezeichnung = reader["Bezeichnung"].ToString(),
-                    titel = Praktikum.PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()),
+                    titel = Praktikum_MVC.PrakHelpers.profTitelHelper(reader["AkademischerTitel"].ToString()),
                     name = reader["Nachname"].ToString(),
                     verantwortlicher = reader["Verantwortlicher"].ToString()
                 };

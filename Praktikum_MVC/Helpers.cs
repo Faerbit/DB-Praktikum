@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Praktikum
+namespace Praktikum_MVC
 {
     static public class PrakHelpers
     {

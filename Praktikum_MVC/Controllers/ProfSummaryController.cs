@@ -11,9 +11,8 @@ namespace Praktikum_MVC.Controllers
         // GET: ProfSummary
         public ActionResult Index(string id)
         {   
-            //id = id.Replace("\"", "");
             ViewBag.exists = true;
-            ViewBag.professor = Praktikum_MVC.Models.ProfSummary.Load(id);
+            ViewBag.professor = Praktikum_MVC.Models.ProfSummary.load(id);
             return View();
         }
     }
