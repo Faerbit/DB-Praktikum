@@ -81,7 +81,7 @@ namespace Praktikum_MVC.Models
             var connection = new SqlConnection(connStr);
             var query = @"
                     INSERT [dbo].[Benutzer] ([Nickname], [Vorname], [Nachname], [Passwort], [Email]) 
-                    VALUES (@username, @vorname, @nachname, HASHBYTES('MD5', @password), 
+                    VALUES (@username, @vorname, @nachname, HASHBYTES('MD5', '" + password + @"'), 
                     @email)";
             var sqlcmd = new SqlCommand(query, connection);
             sqlcmd.Parameters.AddWithValue("@username", username);
@@ -98,7 +98,7 @@ namespace Praktikum_MVC.Models
                 sqlcmd.Parameters.AddWithValue("@nachname", nachname);
             }
             sqlcmd.Parameters.AddWithValue("@email", email);
-            sqlcmd.Parameters.AddWithValue("@password", password);
+            //sqlcmd.Parameters.AddWithValue("@password", password);
             connection.Open();
             SqlDataReader reader = sqlcmd.ExecuteReader();
             reader.Read();
