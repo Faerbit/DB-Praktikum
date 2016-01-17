@@ -37,7 +37,7 @@
             <div class="container">
                 <hr />
                 <div class="pull-left">
-                    @if ((Session["authenticated"] == null || Session["authenticated"] == "")) {
+                    @if ((Session["authenticated"] == null || (string) Session["authenticated"] == "")) {
                     <form class="form-inline" action="@Url.Action("Index", "Session")" method="post">
                         <div class="form-group">
                             <label for="user-name-input"><span class="glyphicon glyphicon-user"></span> Benutzer</label>

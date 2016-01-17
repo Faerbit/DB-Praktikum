@@ -26,9 +26,22 @@ namespace Praktikum_MVC.Models
             var result = new Stundenplan
             {
                 Aktualisiert = DateTime.Parse(doc.Element("stundenplan").Attribute("Aktualisiert").Value),
-                FachSemester = Int32.Parse(doc.Element("stundenplan").Attribute("FachSemester").Value),
+                FachSemester = int.Parse(doc.Element("stundenplan").Attribute("FachSemester").Value),
                 Studiengang = doc.Element("stundenplan").Attribute("Studiengang").Value,
             };
+
+            var nummern = GetFachnummern(doc.Root);
+            var verzeichnis = new Dictionary<int, Tuple<string, string>>();
+            var context = new dbContext();
+            foreach (int nr in nummern)
+            {
+                string nickname = context.Module.Where(m => m.FachNummer == nr).First().Verantwortlicher;
+                string name = context.Module.Where(m => m.FachNummer == nr)
+                              .Join(context.Benutzer, m => m.Verantwortlicher, b => b.Nickname, (m, b) => new { _Modul = m, _Benutzer = b })
+                              .First()._Benutzer.Vorname;
+                var tup = new Tuple<string, string>(nickname, name);
+                verzeichnis.Add(nr, tup);
+            }
 
             var plan = doc.Element("stundenplan").Descendants("Tag");
 
@@ -43,14 +56,15 @@ namespace Praktikum_MVC.Models
                             .First();
                     if (block.Attribute("Typ") != null)
                     {
+                        int nr = int.Parse(block.Attribute("FachNr").Value);
                         newTag.Bloecke.Add(new Block
                         {
                             Zeit = zeit,
-                            FachNr = Int32.Parse(block.Attribute("FachNr").Value),
+                            FachNr = nr,
                             Typ = "(" + block.Attribute("Typ").Value + ")",
                             Veranstaltung = block.Value,
-                            profUsername = "ritz",
-                            profName = "Thomas Ritz"
+                            profUsername = verzeichnis[nr].Item1,
+                            profName = verzeichnis[nr].Item2
                         });
                     }
                     else
@@ -75,7 +89,7 @@ namespace Praktikum_MVC.Models
 
         public static IEnumerable<int> GetFachnummern(XElement root)
         {
-            return root.Element("stundenplan").Descendants("Tag")
+            return root.Descendants("Tag")
                 .Descendants("Block")
                 .Where(b => b.Attribute("FachNr") != null).Attributes("FachNr")
                 .Select(x => x.Value).Select(int.Parse).Distinct();

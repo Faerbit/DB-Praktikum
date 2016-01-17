@@ -18,7 +18,7 @@ namespace Praktikum_MVC.Controllers
         [HttpPost]
         public ActionResult Index(Praktikum_MVC.Models.User user)
         {
-            if (Session["authenticated"] != null && Session["authenticated"] != "") {
+            if (Session["authenticated"] != null && (string) Session["authenticated"] != "") {
                 Session["authenticated"] = "";
                 return RedirectToAction("Index", "Home", new { logout = "true" });
             }

@@ -56,6 +56,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Linq.Dynamic, Version=1.0.5840.25917, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Linq.Dynamic.1.0.6\lib\net40\System.Linq.Dynamic.dll</HintPath>
       <Private>True</Private>
@@ -136,6 +137,7 @@
     <Compile Include="Controllers\ProfSummaryController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\StundenplanController.cs" />
+    <Compile Include="Models\dbContext.cs" />
     <Compile Include="Models\Stundenplan.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">

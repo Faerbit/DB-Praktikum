@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Linq;
+using System.Configuration;
 
 namespace Praktikum_MVC
 {
+
+
     static public class PrakHelpers
     {
         static public string profTitelHelper(string titel)
