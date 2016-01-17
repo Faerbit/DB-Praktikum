@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<stundenplan FachSemester="3" Aktualisiert="2015-12-10T11:52:00" Studiengang="Informatik">
+    <Tag Name="Montag">
+        <Block Zeit="08:15" Typ="V" FachNr="525">Digitaltechnik / Technische Informatik</Block>
+        <Block Zeit="10:15" Typ="Ü" FachNr="525">Digitaltechnik / Technische Informatik</Block>
+        <Block Zeit="12:15" Typ="V" FachNr="524">Mathe II</Block>
+        <Block Zeit="14:15" Typ="Ü" FachNr="524">Mathe II</Block>
+        <Block Zeit="15:45"/>
+        <Block Zeit="17:15"/>
+    </Tag>
+    <Tag Name="Dienstag">
+        <Block Zeit="08:15" />
+        <Block Zeit="10:15" Typ="P" FachNr="536">Datenbanken</Block>
+        <Block Zeit="12:15" Typ="P" FachNr="536">Datenbanken</Block>
+        <Block Zeit="14:15" Typ="V" FachNr="524">Mathe II</Block>
+        <Block Zeit="15:45" Typ="Ü" FachNr="524">Mathe II</Block>
+        <Block Zeit="17:15"/>
+    </Tag>
+    <Tag Name="Mittwoch">
+        <Block Zeit="08:15" Typ="V" FachNr="518">Physik und ETechnik</Block>
+        <Block Zeit="10:15"/>
+        <Block Zeit="12:15" Typ="Ü" FachNr="524">Mathe II</Block>
+        <Block Zeit="14:15" Typ="P" FachNr="540">Objektorientierte Softwareentwicklung</Block>
+        <Block Zeit="15:45" Typ="P" FachNr="540">Objektorientierte Softwareentwicklung</Block>
+        <Block Zeit="17:15"/>
+    </Tag>
+    <Tag Name="Donnerstag">
+        <Block Zeit="08:15" Typ="Ü" FachNr="540">Objektorientierte Softwareentwicklung</Block>
+        <Block Zeit="10:15"/>
+        <Block Zeit="12:15" Typ="Ü" FachNr="518">Physik und ETechnik</Block>
+        <Block Zeit="14:15" Typ="P" FachNr="518">Physik und ETechnik</Block>
+        <Block Zeit="15:45"/>
+        <Block Zeit="17:15"/>
+    </Tag>
+    <Tag Name="Freitag">
+        <Block Zeit="08:15" Typ="P" FachNr="517">Programmier-Praktikum</Block>
+        <Block Zeit="10:15" Typ="P" FachNr="517">Programmier-Praktikum</Block>
+        <Block Zeit="12:15"/>
+        <Block Zeit="14:15"/>
+        <Block Zeit="15:45"/>
+        <Block Zeit="17:15"/>
+    </Tag>    
+</stundenplan>

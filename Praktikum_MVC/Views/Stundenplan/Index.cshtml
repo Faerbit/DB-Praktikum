@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Stundenplan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Studiengang: @ViewBag.stundenplan.Studiengang, Fachsemester: @ViewBag.stundenplan.FachSemester, Zuletzt aktualisiert: @ViewBag.stundenplan.Aktualisiert</h4>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Veranstaltungen</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Praktikum_MVC.Models.Tag tag in ViewBag.stundenplan.Tage)
+        {
+            var first = true;
+            foreach (Praktikum_MVC.Models.Block block in tag.Bloecke) {
+            <tr>
+                @if(first) {
+                    <td rowspan="@tag.Bloecke.Count"><b>@tag.Name</b></td>  
+                    first = false;
+                }
+                <td>@block.Zeit</td>
+                <td><a href="@Url.Action("index", "ProfSummary", new { id = block.profUsername })" 
+                       title="FachNr. @block.FachNr Professor @block.profName">@block.Veranstaltung</a></td>
+                <td>(@block.Typ)</td>
+            </tr>
+            }
+            <tr><td></td><td></td><td></td><td></td></tr>
+        }
+    </tbody>
+</table>
+

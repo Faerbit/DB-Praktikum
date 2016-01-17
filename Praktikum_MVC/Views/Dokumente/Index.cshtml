@@ -38,8 +38,17 @@
                 </tbody>
             </table>
         }
-        <div class="container col-md-12">
-            <img class="img-responsive img-center" src="@Url.Action("Statistik", "Dokumente")" alt="Statistikgraph" />
-        </div>
+        @if (ViewBag.kategorie == null)
+        {
+            <div class="container col-md-12">
+                <img class="img-responsive img-center" src="@Url.Action("Statistik", "Dokumente")" alt="Statistikdiagramm" />
+            </div>
+        }
+        else
+        {
+            <div class="container col-md-12">
+                <img class="img-responsive img-center" src="@Url.Action("KategorieStatistik", "Dokumente", new { kategorie = ViewBag.kategorie })" alt="Statistikdiagramm" />
+            </div>
+        }
     </div>
 }

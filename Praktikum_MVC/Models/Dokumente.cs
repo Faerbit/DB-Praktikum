@@ -44,7 +44,7 @@ namespace Praktikum_MVC.Models
                 {
                     titel = reader["Titel"].ToString(),
                     bereitsteller = reader["Vorname"].ToString() + " " + reader["Nachname"].ToString(),
-                    datum = reader["Bereitstellungsdatum"].ToString(),
+                    datum = reader["Bereitstellungsdatum"].ToString().Substring(0, 10),
                     groesse = groesse
                 };
                 result.Add(dokument);
@@ -89,6 +89,34 @@ namespace Praktikum_MVC.Models
             while (reader.Read())
             {
                 var tuple = new Tuple<string, string>(reader["Kategorie"].ToString() 
+                    + " (" + reader["count"].ToString() + ")",
+                    reader["count"].ToString());
+                result.Add(tuple);
+            }
+            connection.Close();
+            return result;
+        }
+
+        public static List<Tuple<string, string>> getStatistikByKategorie(Kategorie kategorie) {
+            string connStr = ConfigurationManager.ConnectionStrings["dbConnString"].ConnectionString;
+            var connection = new SqlConnection(connStr);
+            var query = @"
+                select Vorname, Nachname, count from (
+                select Dokumente.Benutzer, count(Dokumente.Benutzer) as count
+                from Dokumente 
+                where Kategorie = @kategorie
+                group by Dokumente.Benutzer) as query1,
+                (select * from Benutzer) as query2
+                where query1.Benutzer = query2.Nickname";
+            var sqlcmd = new SqlCommand(query, connection);
+            sqlcmd.Parameters.AddWithValue("@kategorie", kategorie.kategorie);
+            connection.Open();
+            SqlDataReader reader = sqlcmd.ExecuteReader();
+            List<Tuple<string, string>> result = new List<Tuple<string, string>>();
+            while (reader.Read())
+            {
+                var tuple = new Tuple<string, string>(reader["Vorname"].ToString() 
+                    + " " + reader["Nachname"].ToString()
                     + " (" + reader["count"].ToString() + ")",
                     reader["count"].ToString());
                 result.Add(tuple);

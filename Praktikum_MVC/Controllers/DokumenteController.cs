@@ -28,6 +28,7 @@ namespace Praktikum_MVC.Controllers
             {
                 kategorie = new Kategorie { kategorie = Request.Form["kategorie"] };
                 ViewBag.Dokumente = Dokumente.getDokumenteByKategorie(kategorie);
+                ViewBag.kategorie = kategorie.kategorie;
             }
             return View();
         }
@@ -40,6 +41,28 @@ namespace Praktikum_MVC.Controllers
             var yValues = new List<string>();
             var statistik = Dokumente.getKategorieStatistik();
             for(int i = 0; i < statistik.Count; i++) {
+                xValues.Add(statistik[i].Item1);
+                yValues.Add(statistik[i].Item2);
+            }
+            var chart = new Chart(width: 500, height: 500)
+               .AddSeries(
+                   chartType: "pie",
+                   legend: "Dokumente",
+                   xValue: xValues,
+                   yValues: yValues
+               ).GetBytes("png");
+            return File(chart, "image/png");
+        }
+
+        // GET: Dokumente/KategorieStatistik
+        [HttpGet]
+        public ActionResult KategorieStatistik(string kategorie)
+        {
+            var xValues = new List<string>();
+            var yValues = new List<string>();
+            var statistik = Dokumente.getStatistikByKategorie(new Kategorie { kategorie = kategorie });
+            for (int i = 0; i < statistik.Count; i++)
+            {
                 xValues.Add(statistik[i].Item1);
                 yValues.Add(statistik[i].Item2);
             }

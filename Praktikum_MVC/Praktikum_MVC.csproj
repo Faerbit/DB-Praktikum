@@ -107,6 +107,7 @@
     <Content Include="content\bootstrap.min.css" />
     <Content Include="content\custom.css" />
     <Content Include="content\simple-sidebar.css" />
+    <Content Include="content\Stundenplan.xml" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -135,6 +136,7 @@
     <Compile Include="Controllers\ProfSummaryController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\StundenplanController.cs" />
+    <Compile Include="Models\Stundenplan.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -156,6 +158,7 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\NewUser.cshtml" />
     <Content Include="Views\Dokumente\Index.cshtml" />
+    <Content Include="Views\Stundenplan\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
