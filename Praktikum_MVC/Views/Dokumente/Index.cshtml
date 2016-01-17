@@ -2,9 +2,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.title = "Dokumente";
     <div class="row">
-        <select>
-            <option>test</option>
-            <option>test</option>
-        </select>
+        <div class="form-group col-md-6">
+            <select class="form-control">
+                <option>test</option>
+                <option>test</option>
+            </select>
+        </div>
+        <img src="@Url.Action("Statistik")" alt="Statistikgraph"/>
     </div>
 }
