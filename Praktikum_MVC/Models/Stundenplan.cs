@@ -38,7 +38,11 @@ namespace Praktikum_MVC.Models
                 string nickname = context.Module.Where(m => m.FachNummer == nr).First().Verantwortlicher;
                 string name = context.Module.Where(m => m.FachNummer == nr)
                               .Join(context.Benutzer, m => m.Verantwortlicher, b => b.Nickname, (m, b) => new { _Modul = m, _Benutzer = b })
-                              .First()._Benutzer.Vorname;
+                              .First()._Benutzer.Nachname;
+                string titel = context.Module.Where(m => m.FachNummer == nr)
+                              .Join(context.Professoren, m => m.Verantwortlicher, p => p.Nickname, (m, p) => new { _Modul = m, _Professor = p })
+                              .First()._Professor.AkademischerTitel;
+                name = titel + " " + name;
                 var tup = new Tuple<string, string>(nickname, name);
                 verzeichnis.Add(nr, tup);
             }
