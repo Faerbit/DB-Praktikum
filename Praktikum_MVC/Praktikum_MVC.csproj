@@ -61,6 +61,8 @@
       <HintPath>..\packages\System.Linq.Dynamic.1.0.6\lib\net40\System.Linq.Dynamic.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -119,8 +121,25 @@
     <Content Include="content\bootstrap.css.map" />
     <Content Include="content\bootstrap-theme.min.css.map" />
     <Content Include="content\bootstrap-theme.css.map" />
+    <EntityDeploy Include="Models\Foren.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Foren.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Foren.edmx.diagram">
+      <DependentUpon>Foren.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="images\quote.png" />
+    <Content Include="Models\Foren.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Foren.edmx</DependentUpon>
+      <LastGenOutput>Foren.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Foren.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Foren.edmx</DependentUpon>
+      <LastGenOutput>Foren1.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -132,12 +151,31 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DokumenteController.cs" />
+    <Compile Include="Controllers\ForenController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\ProfSummaryController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\StundenplanController.cs" />
     <Compile Include="Models\dbContext.cs" />
+    <Compile Include="Models\Foren.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Foren.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Foren.cs">
+      <DependentUpon>Foren.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Foren.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Foren.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Foren1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Foren.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Stundenplan.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -161,6 +199,11 @@
     <Content Include="Views\User\NewUser.cshtml" />
     <Content Include="Views\Dokumente\Index.cshtml" />
     <Content Include="Views\Stundenplan\Index.cshtml" />
+    <Content Include="Views\Foren\Create.cshtml" />
+    <Content Include="Views\Foren\Delete.cshtml" />
+    <Content Include="Views\Foren\Details.cshtml" />
+    <Content Include="Views\Foren\Edit.cshtml" />
+    <Content Include="Views\Foren\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -170,6 +213,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

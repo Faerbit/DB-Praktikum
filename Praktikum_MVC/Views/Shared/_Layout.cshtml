@@ -31,7 +31,9 @@
             Response.Redirect(Url.Action("Index", "Home", new {error = "login" }));
         }
         else {*@
+        <div class="container">
             @RenderBody()
+        </div>
         @*}*@
         <footer class="footer">
             <div class="container">

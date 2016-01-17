@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Praktikum_MVC.Models.Foren>
+
+@{
+    ViewBag.Title = "Forum";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <h2>@ViewBag.Titel</h2>
+    @if (ViewBag.OberID != 0)
+    {
+
+        <a href="@Url.Action("Index", "Foren", new { id = ViewBag.OberID })"><span class="glyphicon glyphicon-arrow-up"></span>eine Ebene hoch</a>
+
+    }
+</div>
+<hr />
+<div class="col-md-6 row">
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>
+                <a href="@Url.Action("Index", "Foren", new { id = item.ID })">@Html.DisplayFor(modelItem => item.Bezeichnung)</a>
+            </li>
+        }
+    </ul>
+</div>
