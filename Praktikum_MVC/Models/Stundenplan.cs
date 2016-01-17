@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace Praktikum_MVC.Models
 {
@@ -13,6 +15,62 @@ namespace Praktikum_MVC.Models
         public Stundenplan()
         {
             Tage = new List<Tag>();
+        }
+
+        public static Stundenplan getDaten()
+        {
+            var doc = XDocument.Load(System.Web.HttpContext.Current.Server.MapPath("content/Stundenplan.xml"));
+            string[] zeiten = { "08:15", "10:15", "12:15", "14:15", "15:45", "17:15" };
+            string[] tage = { "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag" };
+
+            var result = new Stundenplan
+            {
+                Aktualisiert = DateTime.Parse(doc.Element("stundenplan").Attribute("Aktualisiert").Value),
+                FachSemester = Int32.Parse(doc.Element("stundenplan").Attribute("FachSemester").Value),
+                Studiengang = doc.Element("stundenplan").Attribute("Studiengang").Value,
+            };
+
+            var plan = doc.Element("stundenplan").Descendants("Tag");
+
+            foreach (var tag in tage)
+            {
+                var newTag = new Tag { Name = tag, Bloecke = new List<Block>() };
+
+                foreach (var zeit in zeiten)
+                {
+                    var block = plan.Where(t => t.Attribute("Name").Value.Equals(tag))
+                            .Descendants("Block").Where(b => b.Attribute("Zeit").Value.Equals(zeit))
+                            .First();
+                    if (block != null)
+                    {
+                        newTag.Bloecke.Add(new Block
+                        {
+                            Zeit = zeit,
+                            FachNr = 973,
+                            Typ = block.Attribute("Typ").Value,
+                            Veranstaltung = "databases for professionals",
+                            profUsername = "ritz",
+                            profName = "Thomas Ritz"
+                        });
+                    }
+                    else
+                    {
+                        newTag.Bloecke.Add(new Block
+                        {
+                            Zeit = zeit,
+                            FachNr = 0,
+                            Typ = "",
+                            Veranstaltung = "",
+                            profUsername = "",
+                            profName = ""
+                        });
+                    }
+                }
+
+                result.Tage.Add(newTag);
+            }
+
+            return result;
         }
 
         public static Stundenplan GetMockupDaten()

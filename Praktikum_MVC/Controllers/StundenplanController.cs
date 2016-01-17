@@ -13,7 +13,7 @@ namespace Praktikum_MVC.Controllers
         // GET: Stundenplan
         public ActionResult Index()
         {
-            ViewBag.stundenplan = Stundenplan.GetMockupDaten();
+            ViewBag.stundenplan = Stundenplan.getDaten();
             return View();
         }
     }
