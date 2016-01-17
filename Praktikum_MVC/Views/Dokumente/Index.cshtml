@@ -2,12 +2,44 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.title = "Dokumente";
     <div class="row">
-        <div class="form-group col-md-6">
-            <select class="form-control">
-                <option>test</option>
-                <option>test</option>
-            </select>
+        <form action="@Url.Action("Index", "Dokumente")" method="post">
+            <div class="form-group col-md-6">
+                <label for="kategorie-select">Kategorie auswählen</label>
+                <select name="kategorie" id="kategorie-select" class="form-control" onchange="this.form.submit()">
+                    <option></option>
+                    @foreach (string str in ViewBag.Kategorien)
+                    {
+                        <option value="@str">@str</option>
+                    }
+                </select>
+            </div>
+        </form>
+        @if (ViewBag.Dokumente != null)
+        {
+           <table class="table">
+                <thead>
+                    <tr>
+                        <th>Titel</th>
+                        <th>Datum</th>
+                        <th>Größe</th>
+                        <th>Bereitsteller</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (Praktikum_MVC.Models.Dokumente dokument in ViewBag.Dokumente)
+                {
+                    <tr>
+                        <td>@dokument.titel</td>
+                        <td>@dokument.datum</td>
+                        <td>@dokument.groesse</td>
+                        <td>@dokument.bereitsteller</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        <div class="container col-md-12">
+            <img class="img-responsive img-center" src="@Url.Action("Statistik", "Dokumente")" alt="Statistikgraph" />
         </div>
-        <img src="@Url.Action("Statistik")" alt="Statistikgraph"/>
     </div>
 }

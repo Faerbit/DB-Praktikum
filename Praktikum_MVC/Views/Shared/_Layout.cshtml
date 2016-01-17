@@ -7,7 +7,7 @@
     <script src="@Url.Content("~/scripts/bootstrap.min.js")"></script>
     <link rel="stylesheet" href="@Url.Content("~/content/bootstrap-theme.min.css")" />
     <link rel="stylesheet" href="@Url.Content("~/content/bootstrap.min.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/content/footer.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/content/custom.css")" />
     <link rel="stylesheet" href="@Url.Content("~/content/simple-sidebar.css")" />
 </head>
 <body>
@@ -25,14 +25,14 @@
         {
             <div class="alert alert-success">Logout erfolgreich!</div>
         }
-        @if ((Session["authenticated"] == null || Session["authenticated"] == "")
+        @*if ((Session["authenticated"] == null || Session["authenticated"] == "")
             && (Request.Url.LocalPath != "/" && Request.Url.LocalPath != Url.Action("Index", "Home")
             && Request.Url.LocalPath != Url.Action("Index", "Session"))) {
             Response.Redirect(Url.Action("Index", "Home", new {error = "login" }));
         }
-        else {
+        else {*@
             @RenderBody()
-        }
+        @*}*@
         <footer class="footer">
             <div class="container">
                 <hr />
