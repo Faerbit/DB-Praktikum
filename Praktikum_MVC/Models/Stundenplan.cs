@@ -41,14 +41,14 @@ namespace Praktikum_MVC.Models
                     var block = plan.Where(t => t.Attribute("Name").Value.Equals(tag))
                             .Descendants("Block").Where(b => b.Attribute("Zeit").Value.Equals(zeit))
                             .First();
-                    if (block != null)
+                    if (block.Attribute("Typ") != null)
                     {
                         newTag.Bloecke.Add(new Block
                         {
                             Zeit = zeit,
-                            FachNr = 973,
-                            Typ = block.Attribute("Typ").Value,
-                            Veranstaltung = "databases for professionals",
+                            FachNr = Int32.Parse(block.Attribute("FachNr").Value),
+                            Typ = "(" + block.Attribute("Typ").Value + ")",
+                            Veranstaltung = block.Value,
                             profUsername = "ritz",
                             profName = "Thomas Ritz"
                         });
@@ -71,6 +71,14 @@ namespace Praktikum_MVC.Models
             }
 
             return result;
+        }
+
+        public static IEnumerable<int> GetFachnummern(XElement root)
+        {
+            return root.Element("stundenplan").Descendants("Tag")
+                .Descendants("Block")
+                .Where(b => b.Attribute("FachNr") != null).Attributes("FachNr")
+                .Select(x => x.Value).Select(int.Parse).Distinct();
         }
 
         public static Stundenplan GetMockupDaten()
