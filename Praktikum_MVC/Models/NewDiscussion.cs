@@ -9,6 +9,5 @@ namespace Praktikum_MVC.Models
     {
         public string title { get; set; }
         public string content { get; set; }
-        public int forumID { get; set; }
     }
 }

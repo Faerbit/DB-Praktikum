@@ -209,12 +209,9 @@
     <Content Include="Views\User\NewUser.cshtml" />
     <Content Include="Views\Dokumente\Index.cshtml" />
     <Content Include="Views\Stundenplan\Index.cshtml" />
-    <Content Include="Views\Foren\Create.cshtml" />
-    <Content Include="Views\Foren\Delete.cshtml" />
-    <Content Include="Views\Foren\Details.cshtml" />
-    <Content Include="Views\Foren\Edit.cshtml" />
     <Content Include="Views\Foren\Index.cshtml" />
     <Content Include="Views\Foren\Diskussion.cshtml" />
+    <Content Include="Views\Foren\NewDiscussion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

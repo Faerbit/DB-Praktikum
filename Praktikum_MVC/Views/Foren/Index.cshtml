@@ -8,9 +8,8 @@
     <h2>@ViewBag.Titel</h2>
     @if (ViewBag.OberID != 0)
     {
-
         <a href="@Url.Action("Index", "Foren", new { id = ViewBag.OberID })"><span class="glyphicon glyphicon-arrow-up"></span>eine Ebene hoch</a>
-
+        <a href="@Url.Action("NewDiscussion", "Foren", new { id = ViewBag.ID })"><span class="glyphicon glyphicon-pencil"></span>Neue Diskussion</a>
     }
 </div>
 <hr />

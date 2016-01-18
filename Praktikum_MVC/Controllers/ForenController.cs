@@ -21,6 +21,7 @@ namespace Praktikum_MVC.Controllers
             var foren = db.Foren.Where(f => f.OberforumID == null);
             ViewBag.Titel = "Wurzelebene";
             ViewBag.OberID = 0;
+            ViewBag.ID = id;
             if (id != 0)
             {
                 foren = db.Foren.Where(f => f.OberforumID == id);
@@ -54,6 +55,10 @@ namespace Praktikum_MVC.Controllers
         [HttpPost]
         public ActionResult NewPost(int id, Beiträge beitrag)
         {
+            if(beitrag.Mitteilung == null)
+            {
+                return RedirectToAction("Diskussion", "Foren", new { id = id });
+            }
             beitrag.Benutzer = (string) Session["authenticated"];
             beitrag.Änderungsdatum = DateTime.Now;
             beitrag.DiskussionsID = id;
@@ -71,6 +76,7 @@ namespace Praktikum_MVC.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ID = id;
             return View();
         }
 
@@ -78,112 +84,22 @@ namespace Praktikum_MVC.Controllers
         [HttpPost]
         public ActionResult NewDiscussion(int id, NewDiscussion newDiscussion)
         {
+            Diskussionen diskussion = new Diskussionen();
+            diskussion.AnzahlSichtungen = 0;
+            diskussion.Titel = newDiscussion.title;
+            diskussion.ForumID = id;
+            db.Diskussionen.Add(diskussion);
+            db.SaveChanges();
             Beiträge beitrag = new Beiträge();
             beitrag.Benutzer = (string)Session["authenticated"];
-            //db.SaveChanges();
-            return RedirectToAction("Diskussion", "Foren", new { id = id });
-        }
-
-        /*
-        // GET: Foren/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Foren foren = db.Foren.Find(id);
-            if (foren == null)
-            {
-                return HttpNotFound();
-            }
-            return View(foren);
-        }
-
-        // GET: Foren/Create
-        public ActionResult Create()
-        {
-            ViewBag.OberforumID = new SelectList(db.Foren, "ID", "Bezeichnung");
-            return View();
-        }
-
-        // POST: Foren/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Bezeichnung,OberforumID")] Foren foren)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Foren.Add(foren);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.OberforumID = new SelectList(db.Foren, "ID", "Bezeichnung", foren.OberforumID);
-            return View(foren);
-        }
-
-        // GET: Foren/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Foren foren = db.Foren.Find(id);
-            if (foren == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.OberforumID = new SelectList(db.Foren, "ID", "Bezeichnung", foren.OberforumID);
-            return View(foren);
-        }
-
-        // POST: Foren/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Bezeichnung,OberforumID")] Foren foren)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(foren).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.OberforumID = new SelectList(db.Foren, "ID", "Bezeichnung", foren.OberforumID);
-            return View(foren);
-        }
-
-        // GET: Foren/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Foren foren = db.Foren.Find(id);
-            if (foren == null)
-            {
-                return HttpNotFound();
-            }
-            return View(foren);
-        }
-
-        // POST: Foren/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Foren foren = db.Foren.Find(id);
-            db.Foren.Remove(foren);
+            beitrag.Änderungsdatum = DateTime.Now;
+            beitrag.DiskussionsID = diskussion.ID;
+            beitrag.Mitteilung = newDiscussion.content;
+            db.Beiträge.Add(beitrag);
             db.SaveChanges();
-            return RedirectToAction("Index");
-        }*/
-
+            return RedirectToAction("Diskussion", "Foren", new { id = diskussion.ID });
+        }
+    
         protected override void Dispose(bool disposing)
         {
             if (disposing)
