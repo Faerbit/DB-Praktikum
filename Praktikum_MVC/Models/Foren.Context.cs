@@ -12,6 +12,8 @@ namespace Praktikum_MVC.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class praktikumEntities : DbContext
     {
@@ -26,5 +28,17 @@ namespace Praktikum_MVC.Models
         }
     
         public virtual DbSet<Foren> Foren { get; set; }
+        public virtual DbSet<Beiträge> Beiträge { get; set; }
+        public virtual DbSet<Benutzer> Benutzer { get; set; }
+        public virtual DbSet<Diskussionen> Diskussionen { get; set; }
+    
+        public virtual int Gesichtet(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Gesichtet", iDParameter);
+        }
     }
 }

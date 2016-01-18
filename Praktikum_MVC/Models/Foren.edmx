@@ -4,7 +4,36 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="praktikumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="praktikumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Beiträge">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mitteilung" Type="text" Nullable="false" />
+          <Property Name="DiskussionsID" Type="int" Nullable="false" />
+          <Property Name="Benutzer" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Änderungsdatum" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Benutzer">
+          <Key>
+            <PropertyRef Name="Nickname" />
+          </Key>
+          <Property Name="Nickname" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Vorname" Type="varchar" MaxLength="50" />
+          <Property Name="Nachname" Type="varchar" MaxLength="50" />
+          <Property Name="Passwort" Type="binary" MaxLength="16" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Diskussionen">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Titel" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AnzahlSichtungen" Type="int" Nullable="false" />
+          <Property Name="ForumID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Foren">
           <Key>
             <PropertyRef Name="ID" />
@@ -13,6 +42,42 @@
           <Property Name="Bezeichnung" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="OberforumID" Type="int" />
         </EntityType>
+        <Association Name="FK__Beiträge__Benutz__7933DE0E">
+          <End Role="Benutzer" Type="Self.Benutzer" Multiplicity="1" />
+          <End Role="Beiträge" Type="Self.Beiträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benutzer">
+              <PropertyRef Name="Nickname" />
+            </Principal>
+            <Dependent Role="Beiträge">
+              <PropertyRef Name="Benutzer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Beiträge__Diskus__7A280247">
+          <End Role="Diskussionen" Type="Self.Diskussionen" Multiplicity="1" />
+          <End Role="Beiträge" Type="Self.Beiträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diskussionen">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Beiträge">
+              <PropertyRef Name="DiskussionsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Diskussio__Forum__7B1C2680">
+          <End Role="Foren" Type="Self.Foren" Multiplicity="1" />
+          <End Role="Diskussionen" Type="Self.Diskussionen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foren">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Diskussionen">
+              <PropertyRef Name="ForumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Foren__Oberforum__7FE0DB9D">
           <End Role="Foren" Type="Self.Foren" Multiplicity="0..1" />
           <End Role="Foren1" Type="Self.Foren" Multiplicity="*" />
@@ -25,15 +90,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="Gesichtet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="praktikumModelStoreContainer">
+          <EntitySet Name="Beiträge" EntityType="Self.Beiträge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Benutzer" EntityType="Self.Benutzer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Diskussionen" EntityType="Self.Diskussionen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Foren" EntityType="Self.Foren" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Beiträge__Benutz__7933DE0E" Association="Self.FK__Beiträge__Benutz__7933DE0E">
+            <End Role="Benutzer" EntitySet="Benutzer" />
+            <End Role="Beiträge" EntitySet="Beiträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Beiträge__Diskus__7A280247" Association="Self.FK__Beiträge__Diskus__7A280247">
+            <End Role="Diskussionen" EntitySet="Diskussionen" />
+            <End Role="Beiträge" EntitySet="Beiträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Diskussio__Forum__7B1C2680" Association="Self.FK__Diskussio__Forum__7B1C2680">
+            <End Role="Foren" EntitySet="Foren" />
+            <End Role="Diskussionen" EntitySet="Diskussionen" />
+          </AssociationSet>
           <AssociationSet Name="FK__Foren__Oberforum__7FE0DB9D" Association="Self.FK__Foren__Oberforum__7FE0DB9D">
             <End Role="Foren" EntitySet="Foren" />
             <End Role="Foren1" EntitySet="Foren" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="praktikumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -46,6 +128,7 @@
           <Property Name="OberforumID" Type="Int32" />
           <NavigationProperty Name="Foren1" Relationship="Self.FK__Foren__Oberforum__7FE0DB9D" FromRole="Foren" ToRole="Foren1" />
           <NavigationProperty Name="Foren2" Relationship="Self.FK__Foren__Oberforum__7FE0DB9D" FromRole="Foren1" ToRole="Foren" />
+          <NavigationProperty Name="Diskussionen" Relationship="praktikumModel.FK__Diskussio__Forum__7B1C2680" FromRole="Foren" ToRole="Diskussionen" />
         </EntityType>
         <Association Name="FK__Foren__Oberforum__7FE0DB9D">
           <End Role="Foren" Type="Self.Foren" Multiplicity="0..1" />
@@ -65,7 +148,95 @@
             <End Role="Foren" EntitySet="Foren" />
             <End Role="Foren1" EntitySet="Foren" />
           </AssociationSet>
+          <EntitySet Name="Beiträge" EntityType="praktikumModel.Beiträge" />
+          <EntitySet Name="Benutzer" EntityType="praktikumModel.Benutzer" />
+          <EntitySet Name="Diskussionen" EntityType="praktikumModel.Diskussionen" />
+          <AssociationSet Name="FK__Beiträge__Benutz__7933DE0E" Association="praktikumModel.FK__Beiträge__Benutz__7933DE0E">
+            <End Role="Benutzer" EntitySet="Benutzer" />
+            <End Role="Beiträge" EntitySet="Beiträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Beiträge__Diskus__7A280247" Association="praktikumModel.FK__Beiträge__Diskus__7A280247">
+            <End Role="Diskussionen" EntitySet="Diskussionen" />
+            <End Role="Beiträge" EntitySet="Beiträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Diskussio__Forum__7B1C2680" Association="praktikumModel.FK__Diskussio__Forum__7B1C2680">
+            <End Role="Foren" EntitySet="Foren" />
+            <End Role="Diskussionen" EntitySet="Diskussionen" />
+          </AssociationSet>
+          <FunctionImport Name="Gesichtet">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <EntityType Name="Beiträge">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mitteilung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DiskussionsID" Type="Int32" Nullable="false" />
+          <Property Name="Benutzer" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Änderungsdatum" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Benutzer1" Relationship="praktikumModel.FK__Beiträge__Benutz__7933DE0E" FromRole="Beiträge" ToRole="Benutzer" />
+          <NavigationProperty Name="Diskussionen" Relationship="praktikumModel.FK__Beiträge__Diskus__7A280247" FromRole="Beiträge" ToRole="Diskussionen" />
+        </EntityType>
+        <EntityType Name="Benutzer">
+          <Key>
+            <PropertyRef Name="Nickname" />
+          </Key>
+          <Property Name="Nickname" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Vorname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nachname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Passwort" Type="Binary" Nullable="false" MaxLength="16" FixedLength="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Beiträge" Relationship="praktikumModel.FK__Beiträge__Benutz__7933DE0E" FromRole="Benutzer" ToRole="Beiträge" />
+        </EntityType>
+        <EntityType Name="Diskussionen">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Titel" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AnzahlSichtungen" Type="Int32" Nullable="false" />
+          <Property Name="ForumID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Beiträge" Relationship="praktikumModel.FK__Beiträge__Diskus__7A280247" FromRole="Diskussionen" ToRole="Beiträge" />
+          <NavigationProperty Name="Foren" Relationship="praktikumModel.FK__Diskussio__Forum__7B1C2680" FromRole="Diskussionen" ToRole="Foren" />
+        </EntityType>
+        <Association Name="FK__Beiträge__Benutz__7933DE0E">
+          <End Type="praktikumModel.Benutzer" Role="Benutzer" Multiplicity="1" />
+          <End Type="praktikumModel.Beiträge" Role="Beiträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benutzer">
+              <PropertyRef Name="Nickname" />
+            </Principal>
+            <Dependent Role="Beiträge">
+              <PropertyRef Name="Benutzer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Beiträge__Diskus__7A280247">
+          <End Type="praktikumModel.Diskussionen" Role="Diskussionen" Multiplicity="1" />
+          <End Type="praktikumModel.Beiträge" Role="Beiträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diskussionen">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Beiträge">
+              <PropertyRef Name="DiskussionsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Diskussio__Forum__7B1C2680">
+          <End Type="praktikumModel.Foren" Role="Foren" Multiplicity="1" />
+          <End Type="praktikumModel.Diskussionen" Role="Diskussionen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foren">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Diskussionen">
+              <PropertyRef Name="ForumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -81,6 +252,39 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Beiträge">
+            <EntityTypeMapping TypeName="praktikumModel.Beiträge">
+              <MappingFragment StoreEntitySet="Beiträge">
+                <ScalarProperty Name="Änderungsdatum" ColumnName="Änderungsdatum" />
+                <ScalarProperty Name="Benutzer" ColumnName="Benutzer" />
+                <ScalarProperty Name="DiskussionsID" ColumnName="DiskussionsID" />
+                <ScalarProperty Name="Mitteilung" ColumnName="Mitteilung" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Benutzer">
+            <EntityTypeMapping TypeName="praktikumModel.Benutzer">
+              <MappingFragment StoreEntitySet="Benutzer">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Passwort" ColumnName="Passwort" />
+                <ScalarProperty Name="Nachname" ColumnName="Nachname" />
+                <ScalarProperty Name="Vorname" ColumnName="Vorname" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Diskussionen">
+            <EntityTypeMapping TypeName="praktikumModel.Diskussionen">
+              <MappingFragment StoreEntitySet="Diskussionen">
+                <ScalarProperty Name="ForumID" ColumnName="ForumID" />
+                <ScalarProperty Name="AnzahlSichtungen" ColumnName="AnzahlSichtungen" />
+                <ScalarProperty Name="Titel" ColumnName="Titel" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Gesichtet" FunctionName="praktikumModel.Store.Gesichtet" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

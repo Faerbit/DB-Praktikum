@@ -157,7 +157,16 @@
     <Compile Include="Controllers\ProfSummaryController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\StundenplanController.cs" />
+    <Compile Include="Models\Beiträge.cs">
+      <DependentUpon>Foren.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Benutzer.cs">
+      <DependentUpon>Foren.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\dbContext.cs" />
+    <Compile Include="Models\Diskussionen.cs">
+      <DependentUpon>Foren.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Foren.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -204,6 +213,7 @@
     <Content Include="Views\Foren\Details.cshtml" />
     <Content Include="Views\Foren\Edit.cshtml" />
     <Content Include="Views\Foren\Index.cshtml" />
+    <Content Include="Views\Foren\Diskussion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -25,8 +25,30 @@ namespace Praktikum_MVC.Controllers
                 foren = db.Foren.Where(f => f.OberforumID == id);
                 ViewBag.Titel = db.Foren.Where(f => f.ID == id).First().Bezeichnung;
                 ViewBag.OberID = db.Foren.Where(f => f.ID == id).First().OberforumID;
+                var diskussionen = db.Diskussionen.Where(d => d.ForumID == id);
+                if(diskussionen.Any())
+                {
+                    ViewBag.Diskussionen = diskussionen;
+                }
             }
             return View(foren.ToList());
+        }
+
+        // GET: Foren/Diskussion/5
+        public ActionResult Diskussion(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var diskussion = db.Diskussionen.Find(id);
+            if (diskussion == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Beitraege = db.Beiträge.Where(b => b.DiskussionsID == id);
+            ViewBag.Diskussion = diskussion;
+            return View();
         }
 
         /*

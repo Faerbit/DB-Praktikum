@@ -1,0 +1,29 @@
+﻿@model Praktikum_MVC.Models.Diskussionen
+
+@{
+    ViewBag.Title = "Diskussion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>@ViewBag.Diskussion.Titel</h2>
+    </div>
+    <div class="col-md-6" style="font-size:large">
+        <p class="pull-right">Anzahl Sichtungen: <span class="badge">@ViewBag.Diskussion.AnzahlSichtungen</span> </p>
+    </div>
+</div>
+
+<div class="row container">
+    @foreach (Praktikum_MVC.Models.Beiträge beitrag in ViewBag.Beitraege) {
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @beitrag.Mitteilung
+        </div>
+        <div class="panel-footer">Verfasst von @beitrag.Benutzer am @beitrag.Änderungsdatum</div>
+    </div>
+    }
+</div>
+<p>
+    @Html.ActionLink("Zurück", "Index", "Foren", new { id = ViewBag.Diskussion.ForumID })
+</p>

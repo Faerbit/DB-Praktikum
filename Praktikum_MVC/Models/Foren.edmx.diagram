@@ -7,6 +7,12 @@
       <Diagram DiagramId="cd21372101e8459e8baa3e9c0eb9d4e7" Name="Diagram1">
         <EntityTypeShape EntityType="praktikumModel.Foren" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="praktikumModel.FK__Foren__Oberforum__7FE0DB9D" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="praktikumModel.Beiträge" Width="1.5" PointX="5.25" PointY="0.75" />
+        <EntityTypeShape EntityType="praktikumModel.Benutzer" Width="1.5" PointX="3" PointY="3.875" />
+        <EntityTypeShape EntityType="praktikumModel.Diskussionen" Width="1.5" PointX="3" PointY="0.875" />
+        <AssociationConnector Association="praktikumModel.FK__Beiträge__Benutz__7933DE0E" />
+        <AssociationConnector Association="praktikumModel.FK__Beiträge__Diskus__7A280247" />
+        <AssociationConnector Association="praktikumModel.FK__Diskussio__Forum__7B1C2680" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

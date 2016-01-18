@@ -14,13 +14,36 @@
     }
 </div>
 <hr />
-<div class="col-md-6 row">
-    <ul>
-        @foreach (var item in Model)
+<div class="row">
+    <div class="col-md-6">
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a href="@Url.Action("Index", "Foren", new { id = item.ID })">@Html.DisplayFor(modelItem => item.Bezeichnung)</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-md-6" >
+        @if (ViewBag.Diskussionen != null)
         {
-            <li>
-                <a href="@Url.Action("Index", "Foren", new { id = item.ID })">@Html.DisplayFor(modelItem => item.Bezeichnung)</a>
-            </li>
+        <h3>Diskussionen</h3>
+        <div class="list-group">
+            @foreach (var item in ViewBag.Diskussionen)
+            {
+                if (item.AnzahlSichtungen > 20)
+                {
+                    <a class="list-group-item" href="@Url.Action("Diskussion", "Foren", new { id = item.ID })">
+                        <span class="glyphicon glyphicon-fire"></span> @item.Titel<span class="badge">@item.AnzahlSichtungen</span></a>
+                }
+                else
+                {
+                    <a class="list-group-item" href="@Url.Action("Diskussion", "Foren", new { id = item.ID })">
+                        @item.Titel<span class="badge">@item.AnzahlSichtungen</span></a>
+                }
+            }
+        </div>
         }
-    </ul>
+    </div>
 </div>
