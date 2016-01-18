@@ -76,8 +76,9 @@ namespace Praktikum_MVC.Controllers
 
         // POST: Foren/NewDiscussion/5
         [HttpPost]
-        public ActionResult NewDiscussion(int id, Beiträge beitrag)
+        public ActionResult NewDiscussion(int id, NewDiscussion newDiscussion)
         {
+            Beiträge beitrag = new Beiträge();
             beitrag.Benutzer = (string)Session["authenticated"];
             //db.SaveChanges();
             return RedirectToAction("Diskussion", "Foren", new { id = id });

@@ -185,6 +185,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Foren.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\NewDiscussion.cs" />
     <Compile Include="Models\Stundenplan.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
