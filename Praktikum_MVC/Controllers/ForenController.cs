@@ -84,6 +84,11 @@ namespace Praktikum_MVC.Controllers
         [HttpPost]
         public ActionResult NewDiscussion(int id, NewDiscussion newDiscussion)
         {
+            if (!ModelState.IsValid)
+            {
+
+                return RedirectToAction("NewDiscussion", "Foren", new { id = id });
+            }
             Diskussionen diskussion = new Diskussionen();
             diskussion.AnzahlSichtungen = 0;
             diskussion.Titel = newDiscussion.title;
