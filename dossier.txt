@@ -113,3 +113,22 @@ ihre eigene View hat.
 Um einen Benutzer hinzufügen zu können musste ein weiteres Attribut(das
 bestätigte Passwort) hinzugefügt werden. Außerdem mussten alle Felder
 entsprechend ihren Anforderungen validiert werden.
+
+Block 3:
+Um die aktuelle Veranstaltung farblich zu hinterlegen, würde ich abhängig von
+dem aktuellen Wochentag und der aktuellen Uhrzeit das richtige Tabellenfeld
+berechnen.
+Dies könnte dann mithilfe von CSS farblich hinterlegt werden(background-color).
+
+Für Aufgabe 3.2 habe ich keine zusammengesetzte Model benutzt, da ich dies für
+nicht zielführend halte. Ich war in der Lage alle Aufgaben ohne
+zusammengesetzte Models zu lösen. Der Sinn von zusammengesetzten Models
+erschließt sich mir nicht, da diese meiner Meinung nach mehr
+Programmieraufwand, bei wenig bis keinem verringertem Wartungsaufwand
+darstellen.
+
+Eine Stored Procedure hat den Vorteil, dass sie vor der Laufzeit für die
+Datenbank optimiert werden kann(ähnlich wie beim Kompilieren).  Stored
+Procedures können eine beliebige Anzahl von Parametern als Input und als Output
+haben.  Die Parameter können von jedem Typ sein, der von der Datenbank
+unterstüzt wird. Zusätzlich werden auch Tabellen unterstüzt.
