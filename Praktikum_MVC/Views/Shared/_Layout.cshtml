@@ -25,7 +25,7 @@
         {
             <div class="alert alert-success">Logout erfolgreich!</div>
         }
-        if ((Session["authenticated"] == null || Session["authenticated"] == "")
+        @if ((Session["authenticated"] == null || (string) Session["authenticated"] == "")
             && (Request.Url.LocalPath != "/" && Request.Url.LocalPath != Url.Action("Index", "Home")
             && Request.Url.LocalPath != Url.Action("Index", "Session"))) {
             Response.Redirect(Url.Action("Index", "Home", new {error = "login" }));
